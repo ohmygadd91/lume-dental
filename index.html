@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lume Dental - Your Perfect Smile</title>
+<!-- Typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'lume-dark': '#131c15',
+            'lume-blue': '#a9eaf7',
+            'lume-gray': '#f4f5f7',
+            'lume-white': '#ffffff',
+            "surface-container": "#edeef0",
+            "primary": "#000000",
+            "outline-variant": "#c4c8c1",
+            "surface-container-lowest": "#ffffff",
+            "background": "#f8f9fb",
+            "on-primary-container": "#7c867d",
+            "error-container": "#ffdad6",
+            "tertiary": "#000000",
+            "surface-tint": "#576158",
+            "surface-dim": "#d9dadc",
+            "primary-container": "#151e17",
+            "on-background": "#191c1e",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#25181b",
+            "surface-container-low": "#f3f4f6",
+            "on-primary-fixed-variant": "#3f4941",
+            "on-tertiary-fixed": "#25181b",
+            "primary-fixed-dim": "#bfc9be",
+            "secondary-fixed-dim": "#90d1dd",
+            "tertiary-fixed-dim": "#d8c1c5",
+            "error": "#ba1a1a",
+            "on-tertiary": "#ffffff",
+            "inverse-surface": "#2e3132",
+            "on-secondary-fixed": "#001f24",
+            "on-surface": "#191c1e",
+            "secondary": "#216772",
+            "inverse-primary": "#bfc9be",
+            "primary-fixed": "#dbe5da",
+            "on-tertiary-fixed-variant": "#534246",
+            "outline": "#747873",
+            "surface": "#f8f9fb",
+            "on-primary-fixed": "#151e17",
+            "on-secondary-fixed-variant": "#004e59",
+            "on-surface-variant": "#444843",
+            "inverse-on-surface": "#f0f1f3",
+            "on-primary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#e7e8ea",
+            "tertiary-fixed": "#f5dde0",
+            "surface-variant": "#e1e2e4",
+            "surface-container-highest": "#e1e2e4",
+            "on-secondary-container": "#266b77",
+            "on-tertiary-container": "#937f82",
+            "on-error": "#ffffff",
+            "secondary-fixed": "#acedfa",
+            "surface-bright": "#f8f9fb",
+            "secondary-container": "#a9eaf7"
+          },
+          fontFamily: {
+            'unbounded': ['Unbounded', 'sans-serif'],
+            'manrope': ['Manrope', 'sans-serif'],
+            "headline": ["Space Grotesk"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+        }
+      }
+    }
+</script>
+<style>
+    /* ── Base ── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Manrope', sans-serif;
+        color: #131c15;
+        background-color: #ced9db;
+        overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'Unbounded', sans-serif; letter-spacing: -0.02em; line-height: 1.1; }
+    .text-balance { text-wrap: balance; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .unbounded { font-family: 'Unbounded', sans-serif; }
+    .manrope { font-family: 'Manrope', sans-serif; }
+
+    /* ── Lume Glow ── */
+    .lume-glow { box-shadow: 0 40px 60px -20px rgba(21, 30, 23, 0.05); }
+
+    /* ── Container ── */
+    .container-wrapper {
+        max-width: 1280px;
+        margin: 2rem auto;
+        background-color: #f4f5f7;
+        border-radius: 40px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ── Glassmorphism ── */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+    }
+
+    /* ── Pill Button ── */
+    .pill-button {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, box-shadow 0.4s ease;
+    }
+    .pill-button:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    .pill-button:active {
+        transform: translateY(0) scale(0.98);
+    }
+
+    /* ── Feature Card ── */
+    .feature-card { }
+
+    /* ── Smooth scroll ── */
+    html { scroll-behavior: smooth; }
+
+    /* ── Loading screen ── */
+    .loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #131c15;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .loader-text {
+        font-family: 'Unbounded', sans-serif;
+        color: #a9eaf7;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        opacity: 0;
+    }
+    .loader-bar-track {
+        width: 200px;
+        height: 3px;
+        background: rgba(169, 234, 247, 0.15);
+        border-radius: 10px;
+        overflow: hidden;
+        opacity: 0;
+    }
+    .loader-bar {
+        width: 0%;
+        height: 100%;
+        background: #a9eaf7;
+        border-radius: 10px;
+    }
+
+    /* ── Nav link hover ── */
+    nav > a, nav > .relative > button {
+        position: relative;
+        transition: color 0.3s ease;
+    }
+    nav > a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #a9eaf7;
+        border-radius: 2px;
+        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    nav > a:hover::after { width: 100%; }
+    nav > a:hover { color: #216772; }
+
+    /* ── Dropdown ── */
+    .group\/dropdown:hover > button { color: #216772; }
+
+    /* ── Magnetic button effect ── */
+    .magnetic-wrap { display: inline-block; }
+
+    /* ── Card glow on hover ── */
+    .service-card {
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.5s ease;
+    }
+    .service-card:hover {
+        box-shadow: 0 20px 60px -15px rgba(169, 234, 247, 0.25);
+    }
+
+    /* ── Image reveal overlay ── */
+    .img-reveal {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* ── Focus styles ── */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+        outline: 2px solid #a9eaf7;
+        outline-offset: 2px;
+    }
+
+    /* ── CTA arrow animation ── */
+    .cta-arrow {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .group:hover .cta-arrow,
+    button:hover .cta-arrow {
+        transform: translateX(4px);
+    }
+
+    /* ── Smooth image zoom ── */
+    .img-zoom {
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .img-zoom:hover {
+        transform: scale(1.03);
+    }
+
+    /* ── Footer link underline ── */
+    footer li {
+        transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+    footer li:hover {
+        opacity: 1 !important;
+        transform: translateX(4px);
+    }
+
+    /* ── Form input focus ── */
+    input, textarea, select {
+        transition: box-shadow 0.3s ease, background 0.3s ease;
+    }
+    input:focus, textarea:focus, select:focus {
+        box-shadow: 0 0 0 3px rgba(169, 234, 247, 0.3);
+    }
+
+    /* ── Ticker ── */
+    @keyframes ticker {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+        display: flex;
+        animation: ticker 30s linear infinite;
+        width: max-content;
+    }
+    .ticker-track:hover {
+        animation-play-state: paused;
+    }
+</style>
+</head>
+<body class="p-4 md:p-8">
+
+<!-- ══════════ LOADER ══════════ -->
+<div class="loader" id="loader">
+    <div class="loader-text" id="loaderText">Lume Dental</div>
+    <div class="loader-bar-track" id="loaderTrack">
+        <div class="loader-bar" id="loaderBar"></div>
+    </div>
+</div>
+
+<!-- ══════════ MAIN CONTAINER ══════════ -->
+<main class="container-wrapper" id="mainContainer" style="opacity:0;">
+
+<!-- ══════════ NAVIGATION ══════════ -->
+<header class="flex items-center justify-between px-10 py-8 bg-transparent relative z-50" data-purpose="main-navigation">
+    <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-lume-dark rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white fill-current" viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>
+        </div>
+        <span class="font-unbounded font-bold text-lg tracking-tight">Lume Dental</span>
+    </div>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <div class="relative group/dropdown">
+            <button class="flex items-center gap-1 hover:text-secondary transition-colors duration-300 focus:outline-none" type="button">
+                Services
+                <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover/dropdown:rotate-180">expand_more</span>
+            </button>
+            <div class="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-[opacity,visibility] duration-300 z-50">
+                <div class="bg-white rounded-2xl shadow-xl p-3 min-w-[240px] border border-lume-gray">
+                    <a href="teeth-whitening.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>flare</span>
+                        <span class="text-sm font-medium text-on-surface">Teeth Whitening</span>
+                    </a>
+                    <a href="porcelain-veneers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>layers</span>
+                        <span class="text-sm font-medium text-on-surface">Porcelain Veneers</span>
+                    </a>
+                    <a href="smile-makeovers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>self_improvement</span>
+                        <span class="text-sm font-medium text-on-surface">Smile Makeovers</span>
+                    </a>
+                    <a href="implants-prosthetics.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>component_exchange</span>
+                        <span class="text-sm font-medium text-on-surface">Implants & Prosthetics</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <a href="#about">About us</a>
+        <a href="#services">Our Work</a>
+        <a href="#contacts">Contacts</a>
+    </nav>
+    <a href="#contacts" class="bg-lume-dark text-white px-6 py-3 rounded-full text-sm font-medium pill-button inline-block no-underline">
+        Book an Appointment
+    </a>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="px-10 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start" data-purpose="hero-section">
+    <div class="flex flex-col gap-8 pt-10">
+        <h1 class="text-6xl lg:text-7xl font-extrabold text-lume-dark hero-title">
+            Your <span style="color: black;">Perfect Smile</span><br/>
+            <span style="color: rgb(169, 234, 247);">Starts</span><br/>
+            with <span style="color: rgb(169, 234, 247);">Lume Dental</span>
+        </h1>
+        <p class="text-lg text-gray-600 max-w-md hero-subtitle">
+            Advanced dental care with a gentle touch. Book your appointment today.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 mt-4 hero-cards">
+            <div class="bg-white p-6 rounded-[2rem] flex-1 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-500">
+                <h4 class="font-bold text-sm mb-4">Working Hours</h4>
+                <div class="flex justify-between text-xs text-gray-500 mb-2">
+                    <span>Monday — Friday</span>
+                    <span class="text-lume-dark font-semibold">9AM — 9PM</span>
+                </div>
+                <div class="flex justify-between text-xs text-gray-500 mb-6">
+                    <span>Saturday, Sunday</span>
+                    <span class="text-lume-dark font-semibold">10AM — 6PM</span>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-xl flex items-center justify-between">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Today <span class="text-lume-dark">Tuesday, 2.4PM</span></span>
+                </div>
+            </div>
+            <div class="bg-lume-blue p-6 rounded-[2rem] flex-1 flex flex-col justify-between shadow-sm group cursor-pointer hover:shadow-lg transition-shadow duration-500">
+                <div class="flex justify-end">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-4 h-4 transform rotate-45 group-hover:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                    </div>
+                </div>
+                <h3 class="font-unbounded font-bold text-xl text-lume-dark mt-8 leading-tight">Book an Appointment</h3>
+            </div>
+        </div>
+    </div>
+    <div class="relative w-full aspect-[4/5] rounded-[3rem] overflow-hidden shadow-xl img-reveal" data-purpose="hero-image">
+        <img alt="Professional dental practitioner smiling" class="w-full h-full object-cover img-zoom" src="Assets/Images/Hero Image.jpg"/>
+    </div>
+</section>
+
+<!-- ══════════ ABOUT SECTION ══════════ -->
+<section id="about" class="bg-white rounded-[3rem] mx-4 mb-10 p-10 lg:p-16" data-purpose="about-clinic-section">
+    <div class="mb-6">
+        <span class="inline-block bg-lume-gray px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-500">Why Choose Us</span>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-20">
+        <div>
+            <h2 class="text-4xl font-extrabold mb-8">About Lume Dental Clinic</h2>
+            <p class="text-gray-600 mb-4 leading-relaxed">
+                At Lume Dental, we believe that a healthy smile is a gateway to confidence and well-being.
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+                Our team of experienced dentists and hygienists use the latest technology to provide top-quality dental care in a comfortable and welcoming environment.
+            </p>
+        </div>
+        <div class="flex flex-col justify-end">
+            <p class="text-gray-600 leading-relaxed max-w-sm ml-auto">
+                Whether you need routine cleanings, cosmetic enhancements, or advanced procedures, we are here to help you achieve the smile of your dreams.
+            </p>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch" style="grid-auto-rows: 1fr;">
+        <div class="bg-lume-gray p-8 rounded-[2.5rem] border border-transparent hover:border-lume-blue transition-colors duration-300 service-card flex flex-col justify-between h-full">
+            <div class="w-12 h-12 bg-lume-dark rounded-full flex items-center justify-center mb-16 shrink-0">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+            </div>
+            <div>
+                <h4 class="font-unbounded font-bold text-lg mb-4">State-of-the-art equipment</h4>
+                <p class="text-sm text-gray-500 leading-relaxed">We use the latest advancements in dental technology to provide.</p>
+            </div>
+        </div>
+        <div class="bg-lume-gray p-8 rounded-[2.5rem] border border-transparent hover:border-lume-blue transition-colors duration-300 service-card flex flex-col justify-between h-full">
+            <div class="w-12 h-12 bg-lume-dark rounded-full flex items-center justify-center mb-16 shrink-0">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+            </div>
+            <div>
+                <h4 class="font-unbounded font-bold text-lg mb-4">Experienced & caring professionals</h4>
+                <p class="text-sm text-gray-500 leading-relaxed">Our team of dentists, hygienists, and specialists brings years of expertise.</p>
+            </div>
+        </div>
+        <div class="bg-lume-blue p-8 rounded-[2.5rem] border border-transparent service-card flex flex-col justify-between h-full">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-16 shrink-0">
+                <svg class="w-6 h-6 text-lume-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+            </div>
+            <div>
+                <h4 class="font-unbounded font-bold text-lg mb-4">Pain-free, stress-free treatments</h4>
+                <p class="text-sm text-lume-dark leading-relaxed">We understand that dental visits can be stressful, which is why we prioritize.</p>
+            </div>
+        </div>
+        <div class="bg-lume-gray p-8 rounded-[2.5rem] border border-transparent hover:border-lume-blue transition-colors duration-300 service-card flex flex-col justify-between h-full">
+            <div class="w-12 h-12 bg-lume-dark rounded-full flex items-center justify-center mb-16 shrink-0">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+            </div>
+            <div>
+                <h4 class="font-unbounded font-bold text-lg mb-4">Personalized approach for every patient</h4>
+                <p class="text-sm text-gray-500 leading-relaxed">Every smile is unique, and so is every treatment plan.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ SERVICES HERO ══════════ -->
+<section id="services" class="max-w-[1440px] mx-auto px-10 mb-24 grid md:grid-cols-12 gap-12 items-center" data-purpose="services-hero">
+    <div class="md:col-span-7">
+        <h1 class="font-unbounded text-5xl md:text-7xl font-bold leading-tight tracking-tighter mb-8">
+            Dental Services for Every Need
+        </h1>
+        <p class="text-xl md:text-2xl manrope leading-[1.6] text-on-surface-variant max-w-2xl mb-12">
+            Experience the next level of clinical care where high-end aesthetics meet restorative precision. We curate personalized treatment plans that prioritize your long-term oral health and natural beauty.
+        </p>
+        <button class="group flex items-center gap-4 bg-secondary-container text-on-secondary-container px-10 py-5 rounded-full font-bold text-lg hover:shadow-xl transition-shadow duration-300 pill-button">
+            Explore All Services
+            <span class="material-symbols-outlined cta-arrow">arrow_forward</span>
+        </button>
+    </div>
+    <div class="md:col-span-5 relative">
+        <div class="aspect-[4/5] rounded-[3rem] overflow-hidden lume-glow img-reveal">
+            <img alt="Modern high-end dental office interior" class="w-full h-full object-cover img-zoom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMZVNS9XHkB1hlfBluF3Fr1Z_A7gRm2R5-LRAjzmhM25Dbn2exh88K8cbPkGZKXLuQkMEg7uoe4faVZ4mKOaEA7H4R1wFWujlVVthSP9Ep1nr6hs4i9UUgB9R_28M2t-AKYDSk8OI4Vbzbj66Kv6PevuqsUfzdQClYbLV0FbIox2gqa-qYbPLwTJwbLXjevhOO8seeoU-fmsrV4ln7ngVLEpKcDmrZi0xr54nr5t18GbHJ2jLCJgqe_G4esAqqdUyutqmFtHaabTU"/>
+        </div>
+        <!-- Glassmorphism Badge -->
+        <div class="absolute -bottom-6 -left-12 bg-surface-container-lowest/70 backdrop-blur-md p-8 rounded-2xl shadow-2xl border border-white/20 hidden lg:block">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>verified</span>
+                </div>
+                <div>
+                    <p class="font-unbounded text-sm font-bold">Premium Standards</p>
+                    <p class="text-xs text-on-surface-variant">Certified Swiss Equipment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ SERVICES GRID ══════════ -->
+<section class="bg-surface-container-low py-32 rounded-[4rem] mx-4 mb-24">
+    <div class="max-w-[1440px] mx-auto px-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Card 1: Teeth Whitening -->
+            <a href="teeth-whitening.html" class="group bg-surface-container-lowest p-10 rounded-[2.5rem] lume-glow flex flex-col justify-between min-h-[400px] hover:-translate-y-2 transition-transform duration-500 border border-transparent hover:border-secondary-container service-card no-underline text-inherit">
+                <div>
+                    <div class="w-20 h-20 bg-secondary-container/50 rounded-2xl flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-4xl text-secondary" style='font-variation-settings: "FILL" 1;'>flare</span>
+                    </div>
+                    <h3 class="font-unbounded text-2xl font-bold mb-4">Teeth Whitening</h3>
+                    <p class="manrope text-on-surface-variant leading-[1.6]">Advanced oxygenation technology for a bright, radiant smile without sensitivity.</p>
+                </div>
+                <div class="flex justify-end pt-8">
+                    <div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+                        <span class="material-symbols-outlined">north_east</span>
+                    </div>
+                </div>
+            </a>
+            <!-- Card 2: Veneers -->
+            <a href="porcelain-veneers.html" class="group bg-surface-container-lowest p-10 rounded-[2.5rem] lume-glow flex flex-col justify-between min-h-[400px] hover:-translate-y-2 transition-transform duration-500 border border-transparent hover:border-secondary-container service-card no-underline text-inherit">
+                <div>
+                    <div class="w-20 h-20 bg-secondary-container/50 rounded-2xl flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-4xl text-secondary" style='font-variation-settings: "FILL" 1;'>layers</span>
+                    </div>
+                    <h3 class="font-unbounded text-2xl font-bold mb-4">Porcelain Veneers</h3>
+                    <p class="manrope text-on-surface-variant leading-[1.6]">Ultra-thin, custom-crafted shells designed to perfect your smile's shape and alignment.</p>
+                </div>
+                <div class="flex justify-end pt-8">
+                    <div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+                        <span class="material-symbols-outlined">north_east</span>
+                    </div>
+                </div>
+            </a>
+            <!-- Card 3: Smile Makeovers -->
+            <a href="smile-makeovers.html" class="group bg-surface-container-lowest p-10 rounded-[2.5rem] lume-glow flex flex-col justify-between min-h-[400px] hover:-translate-y-2 transition-transform duration-500 border border-transparent hover:border-secondary-container service-card no-underline text-inherit">
+                <div>
+                    <div class="w-20 h-20 bg-secondary-container/50 rounded-2xl flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-4xl text-secondary" style='font-variation-settings: "FILL" 1;'>self_improvement</span>
+                    </div>
+                    <h3 class="font-unbounded text-2xl font-bold mb-4">Smile Makeovers</h3>
+                    <p class="manrope text-on-surface-variant leading-[1.6]">A comprehensive aesthetic overhaul combining multiple clinical techniques for harmony.</p>
+                </div>
+                <div class="flex justify-end pt-8">
+                    <div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+                        <span class="material-symbols-outlined">north_east</span>
+                    </div>
+                </div>
+            </a>
+            <!-- Card 4: Implants -->
+            <a href="implants-prosthetics.html" class="group bg-surface-container-lowest p-10 rounded-[2.5rem] lume-glow flex flex-col justify-between min-h-[400px] hover:-translate-y-2 transition-transform duration-500 border border-transparent hover:border-secondary-container service-card no-underline text-inherit">
+                <div>
+                    <div class="w-20 h-20 bg-secondary-container/50 rounded-2xl flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-4xl text-secondary" style='font-variation-settings: "FILL" 1;'>component_exchange</span>
+                    </div>
+                    <h3 class="font-unbounded text-2xl font-bold mb-4">Implants & Prosthetics</h3>
+                    <p class="manrope text-on-surface-variant leading-[1.6]">State-of-the-art restorative solutions that function and feel like natural teeth.</p>
+                </div>
+                <div class="flex justify-end pt-8">
+                    <div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+                        <span class="material-symbols-outlined">north_east</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ CLINICAL EDGE ══════════ -->
+<section class="py-12 max-w-[1440px] mx-auto px-10 grid md:grid-cols-2 gap-24 items-center mb-24">
+    <div class="relative order-2 md:order-1">
+        <div class="rounded-[3rem] overflow-hidden aspect-video shadow-2xl img-reveal">
+            <img alt="Dentist working with high precision tools" class="w-full h-full object-cover img-zoom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYCbmS4WOP-rzfj-qC0DDM-FYMooaisCgIrtkjOsruSYxy9lU2Z04BijKFFa_twY-16rWWBx9ESsdkvTpae5pTyY7NqlhcVMb9KgMi_lFomwp0WtTHBVcYEhVTmEGlwHjxnIwU4ldPIRHgQu6VSuqgK2rqRsjlUJNOIPJjVDgTKp4I_sVJ0No9g0ZCZ5HWSE0oCuYG10VgpTxzD6BeapWtURcEjq7v5adYZYgqfhmn7q3BuDQtiKHzvJdbuXD47XvemRDStviU0TI"/>
+        </div>
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-secondary-container rounded-full mix-blend-multiply opacity-50 blur-3xl"></div>
+    </div>
+    <div class="order-1 md:order-2">
+        <h2 class="font-unbounded text-4xl font-bold mb-8">The Clinical Edge</h2>
+        <p class="text-lg manrope leading-[1.8] text-on-surface-variant mb-8">
+            We believe dental care should be an extension of your wellness journey. Every procedure at Lume Dental is conducted using microscopic precision, ensuring that restorative work is as invisible as it is durable.
+        </p>
+        <ul class="space-y-6">
+            <li class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-secondary mt-1">check_circle</span>
+                <div>
+                    <p class="font-bold font-unbounded text-sm uppercase tracking-wide">Digital Smile Design (DSD)</p>
+                    <p class="manrope text-on-surface-variant text-sm">Visualize your results before the treatment starts.</p>
+                </div>
+            </li>
+            <li class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-secondary mt-1">check_circle</span>
+                <div>
+                    <p class="font-bold font-unbounded text-sm uppercase tracking-wide">Holistic Materials</p>
+                    <p class="manrope text-on-surface-variant text-sm">Bio-compatible ceramics and metal-free restorations.</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ══════════ GET IN TOUCH ══════════ -->
+<section id="contacts" class="pb-24 px-10 max-w-[1920px] mx-auto bg-transparent">
+    <!-- Hero / Get in Touch -->
+    <div class="flex flex-col md:flex-row gap-16 mb-24 items-end mt-20">
+        <div class="flex-1">
+            <h1 class="unbounded text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] text-primary-container">
+                Get in <br/>Touch
+            </h1>
+            <p class="mt-8 text-xl manrope text-on-surface-variant max-w-lg leading-relaxed">
+                Experience a higher standard of clinical care. Our curators are ready to assist you in designing your perfect smile journey.
+            </p>
+        </div>
+        <div class="flex-shrink-0 w-full md:w-1/3">
+            <div class="bg-primary-container p-10 rounded-[2.5rem] text-on-primary">
+                <h3 class="unbounded uppercase tracking-[0.2em] text-sm mb-8 text-secondary-container">Clinical Hours</h3>
+                <ul class="space-y-6 manrope">
+                    <li class="flex justify-between items-center border-b border-on-primary/10 pb-4">
+                        <span class="font-medium opacity-60">Mon — Thu</span>
+                        <span class="font-bold">08:00 — 20:00</span>
+                    </li>
+                    <li class="flex justify-between items-center border-b border-on-primary/10 pb-4">
+                        <span class="font-medium opacity-60">Friday</span>
+                        <span class="font-bold">08:00 — 18:00</span>
+                    </li>
+                    <li class="flex justify-between items-center pb-4">
+                        <span class="font-medium opacity-60">Sat — Sun</span>
+                        <span class="font-bold text-secondary-container">Emergency Only</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form & Info -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div class="lg:col-span-7 bg-surface-container-low rounded-[3rem] p-12">
+            <div class="max-w-2xl">
+                <h2 class="unbounded text-3xl font-bold mb-10 text-primary-container">Send a Message</h2>
+                <form class="space-y-8" onsubmit="event.preventDefault()">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="manrope text-xs font-bold uppercase tracking-widest opacity-50 ml-4">Full Name</label>
+                            <input class="w-full bg-surface-container-lowest border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-secondary-container manrope text-on-surface" placeholder="Johnathan Doe" type="text"/>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="manrope text-xs font-bold uppercase tracking-widest opacity-50 ml-4">Email Address</label>
+                            <input class="w-full bg-surface-container-lowest border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-secondary-container manrope text-on-surface" placeholder="john@studio.com" type="email"/>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="manrope text-xs font-bold uppercase tracking-widest opacity-50 ml-4">Service Interest</label>
+                        <select class="w-full bg-surface-container-lowest border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-secondary-container manrope text-on-surface appearance-none">
+                            <option>Cosmetic Dentistry</option>
+                            <option>Dental Implants</option>
+                            <option>Restorative Care</option>
+                            <option>Routine Hygiene</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="manrope text-xs font-bold uppercase tracking-widest opacity-50 ml-4">Message</label>
+                        <textarea class="w-full bg-surface-container-lowest border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-secondary-container manrope text-on-surface resize-none" placeholder="How can we help you today?" rows="4"></textarea>
+                    </div>
+                    <button class="bg-primary text-on-primary px-12 py-5 rounded-full font-bold tracking-widest hover:opacity-90 transition-opacity duration-300 flex items-center gap-4 pill-button" type="submit">
+                        SEND MESSAGE
+                        <span class="material-symbols-outlined text-secondary-container cta-arrow">arrow_forward</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="lg:col-span-5 space-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-8">
+                <div class="bg-surface-container-low p-10 rounded-[2.5rem] flex items-start gap-6">
+                    <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-secondary text-3xl">location_on</span>
+                    </div>
+                    <div>
+                        <h4 class="unbounded text-sm font-bold uppercase tracking-widest mb-4">Our Studio</h4>
+                        <p class="manrope text-on-surface-variant leading-relaxed">
+                            742 Lume Boulevard, Suite 100<br/>
+                            Medical Arts District, NY 10012
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-surface-container-low p-10 rounded-[2.5rem] flex items-start gap-6">
+                    <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-secondary text-3xl">call</span>
+                    </div>
+                    <div>
+                        <h4 class="unbounded text-sm font-bold uppercase tracking-widest mb-4">Direct Line</h4>
+                        <p class="manrope text-on-surface-variant leading-relaxed">
+                            (212) 555-0198<br/>
+                            concierge@lumedental.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative h-[400px] w-full rounded-[3rem] overflow-hidden group">
+                <img alt="Studio Location" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcF_toR4ZV134s884QvAJE7naCZGGsZU0xalRcDMnfIJNYRrJPUV1yr6ayvT9gBjbVWG103qakadL3JUFCMoocEtx07kfviZ3-rmr83lHPi6Dj_5YymFlMzYZ4qayBCRc5tPLEo25Lj0yeUSHMlc1aBXx2hayaAsS65j9JlNQiywm1wtCDEOXGbyT8p5YFAe4TAqjk7ILtEFfexjNjBAd-NJ_NoBG45Ac2CWXvmkpJmZJVHOh-D8Sx8TzTgIb9KCxf7LjykAqZvWQ"/>
+                <div class="absolute inset-0 bg-primary-container/20"></div>
+                <div class="absolute bottom-8 left-8 right-8 bg-surface/90 backdrop-blur-md p-6 rounded-3xl flex items-center justify-between">
+                    <div>
+                        <p class="unbounded text-xs font-bold uppercase tracking-wider text-primary">View on Maps</p>
+                        <p class="manrope text-sm opacity-60">Directions for parking & entry</p>
+                    </div>
+                    <span class="material-symbols-outlined text-primary text-3xl">map</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join the Collective -->
+    <div class="mt-24 bg-secondary-container/30 rounded-[4rem] p-12 md:p-24 text-center overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-secondary-container rounded-full blur-[100px] -mr-48 -mt-48 opacity-40"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary rounded-full blur-[100px] -ml-32 -mb-32 opacity-10"></div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <h2 class="unbounded text-4xl md:text-5xl font-bold tracking-tighter text-primary-container mb-6">Join the Lume Collective</h2>
+            <p class="manrope text-lg text-on-surface-variant mb-10">Subscribe to our monthly curation of oral health innovation, luxury dental trends, and exclusive patient updates.</p>
+            <div class="flex flex-col sm:flex-row gap-4 bg-surface rounded-full p-2 max-w-xl mx-auto border border-secondary-container">
+                <input class="flex-1 bg-transparent border-none focus:ring-0 px-8 py-4 manrope" placeholder="your@email.com" type="email"/>
+                <button class="bg-primary text-on-primary px-10 py-4 rounded-full font-bold tracking-widest text-sm hover:opacity-90 active:scale-95 transition-transform duration-200 pill-button">SUBSCRIBE</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="bg-[#131c15] text-[#f8f9fb] w-full rounded-t-[3rem]">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 px-12 py-20 max-w-[1920px] mx-auto">
+        <div class="space-y-8">
+            <span class="unbounded text-2xl font-bold text-[#a9eaf7]">Lume Dental</span>
+            <p class="manrope leading-relaxed opacity-60">High-End Clinical Curators. Redefining the dental experience through precision and artistry.</p>
+        </div>
+        <div>
+            <h5 class="unbounded uppercase tracking-widest text-sm mb-8 text-[#a9eaf7]">Services</h5>
+            <ul class="space-y-4 manrope opacity-40">
+                <li><a href="teeth-whitening.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Teeth Whitening</a></li>
+                <li><a href="porcelain-veneers.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Porcelain Veneers</a></li>
+                <li><a href="smile-makeovers.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Smile Makeovers</a></li>
+                <li><a href="implants-prosthetics.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Implants &amp; Prosthetics</a></li>
+            </ul>
+        </div>
+        <div class="space-y-8">
+            <h5 class="unbounded uppercase tracking-widest text-sm mb-8 text-[#a9eaf7]">Follow Us</h5>
+            <div class="flex gap-6">
+                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-[#a9eaf7] hover:text-[#a9eaf7] transition-[color,border-color,transform] duration-300 cursor-pointer hover:scale-110">
+                    <span class="material-symbols-outlined">share</span>
+                </div>
+                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-[#a9eaf7] hover:text-[#a9eaf7] transition-[color,border-color,transform] duration-300 cursor-pointer hover:scale-110">
+                    <span class="material-symbols-outlined">language</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="px-12 py-8 border-t border-white/5 max-w-[1920px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="manrope text-sm opacity-40">&copy; 2024 Lume Dental. High-End Clinical Curators.</p>
+        <div class="flex gap-8 text-xs manrope uppercase tracking-[0.2em] opacity-40">
+            <span>London</span>
+            <span>New York</span>
+            <span>Zurich</span>
+        </div>
+    </div>
+</footer>
+
+</main>
+
+<!-- ══════════ GSAP ANIMATIONS ══════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ── Register plugins ──
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    // ── Loading Animation ──
+    const loaderTl = gsap.timeline({
+        onComplete: () => {
+            gsap.to('#loader', {
+                yPercent: -100,
+                duration: 0.8,
+                ease: 'power4.inOut',
+                onComplete: () => {
+                    document.getElementById('loader').style.display = 'none';
+                    initAnimations();
+                }
+            });
+        }
+    });
+
+    loaderTl
+        .to('#loaderText', { opacity: 1, duration: 0.5, ease: 'power2.out' })
+        .to('#loaderTrack', { opacity: 1, duration: 0.3 }, '-=0.2')
+        .to('#loaderBar', { width: '100%', duration: 1.2, ease: 'power2.inOut' }, '-=0.1');
+
+    function initAnimations() {
+
+        // ── Main container fade in ──
+        gsap.to('#mainContainer', { opacity: 1, duration: 0.6, ease: 'power2.out' });
+
+        // ── Navigation ──
+        const header = document.querySelector('header');
+        gsap.from(header.querySelector('.flex.items-center.gap-2'), {
+            x: -30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.1
+        });
+        gsap.from(header.querySelector('nav'), {
+            y: -15, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2
+        });
+        gsap.from(header.querySelector('button'), {
+            x: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.3
+        });
+
+        // ── Hero Title — split by lines ──
+        const heroTitle = document.querySelector('.hero-title');
+        gsap.from(heroTitle, {
+            y: 60, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.3
+        });
+
+        // ── Hero Subtitle ──
+        gsap.from('.hero-subtitle', {
+            y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.6
+        });
+
+        // ── Hero Cards ──
+        gsap.from('.hero-cards > div', {
+            y: 40, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.15, delay: 0.8
+        });
+
+        // ── Hero Image Reveal ──
+        const heroImgReveal = document.querySelector('[data-purpose="hero-image"]');
+        if (heroImgReveal) {
+            gsap.fromTo(heroImgReveal,
+                { clipPath: 'inset(0 100% 0 0)', scale: 0.95 },
+                { clipPath: 'inset(0 0% 0 0)', scale: 1, duration: 1.4, ease: 'power4.inOut', delay: 0.4 }
+            );
+        }
+
+        // ── All scroll-triggered image reveals ──
+        document.querySelectorAll('.img-reveal:not([data-purpose="hero-image"])').forEach(el => {
+            gsap.fromTo(el,
+                { clipPath: 'inset(0 100% 0 0)' },
+                {
+                    clipPath: 'inset(0 0% 0 0)',
+                    duration: 1.4,
+                    ease: 'power4.inOut',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // ── About Section ──
+        const aboutSection = document.querySelector('[data-purpose="about-clinic-section"]');
+        if (aboutSection) {
+            gsap.from(aboutSection.querySelector('span'), {
+                y: 20, opacity: 0, duration: 0.6, ease: 'power3.out',
+                scrollTrigger: { trigger: aboutSection, start: 'top 80%' }
+            });
+
+            gsap.from(aboutSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: aboutSection, start: 'top 75%' }
+            });
+
+            gsap.from(aboutSection.querySelectorAll('.grid.grid-cols-1.lg\\:grid-cols-2 p'), {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.15,
+                scrollTrigger: { trigger: aboutSection, start: 'top 70%' }
+            });
+
+            // Feature cards stagger
+            gsap.from(aboutSection.querySelectorAll('.feature-card'), {
+                y: 60, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12,
+                scrollTrigger: { trigger: aboutSection.querySelector('.grid.grid-cols-1.md\\:grid-cols-2'), start: 'top 85%' }
+            });
+        }
+
+        // ── Services Hero ──
+        const servicesHero = document.querySelector('[data-purpose="services-hero"]');
+        if (servicesHero) {
+            gsap.from(servicesHero.querySelector('h1'), {
+                y: 80, opacity: 0, duration: 1, ease: 'power3.out',
+                scrollTrigger: { trigger: servicesHero, start: 'top 80%' }
+            });
+
+            gsap.from(servicesHero.querySelector('p'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: servicesHero, start: 'top 75%' },
+                delay: 0.2
+            });
+
+            gsap.from(servicesHero.querySelector('button'), {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out',
+                scrollTrigger: { trigger: servicesHero, start: 'top 70%' },
+                delay: 0.4
+            });
+
+            // Glassmorphism badge
+            const badge = servicesHero.querySelector('.backdrop-blur-md');
+            if (badge) {
+                gsap.from(badge, {
+                    y: 40, opacity: 0, scale: 0.9, duration: 0.8, ease: 'power3.out',
+                    scrollTrigger: { trigger: badge, start: 'top 95%' },
+                    delay: 0.6
+                });
+            }
+        }
+
+        // ── Services Grid Cards ──
+        const serviceCards = document.querySelectorAll('.bg-surface-container-low .lume-glow');
+        serviceCards.forEach((card, i) => {
+            gsap.from(card, {
+                y: 80,
+                opacity: 0,
+                duration: 0.9,
+                ease: 'power3.out',
+                delay: i * 0.1,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // ── Clinical Edge Section ──
+        const clinicalSection = document.querySelector('.grid.md\\:grid-cols-2.gap-24');
+        if (clinicalSection) {
+            gsap.from(clinicalSection.querySelector('h2'), {
+                x: 60, opacity: 0, duration: 0.9, ease: 'power3.out',
+                scrollTrigger: { trigger: clinicalSection, start: 'top 75%' }
+            });
+
+            gsap.from(clinicalSection.querySelectorAll('li'), {
+                x: 40, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.15,
+                scrollTrigger: { trigger: clinicalSection, start: 'top 65%' }
+            });
+        }
+
+        // ── Get in Touch ──
+        const getInTouch = document.querySelector('.text-6xl.md\\:text-8xl');
+        if (getInTouch) {
+            gsap.from(getInTouch, {
+                y: 100, opacity: 0, duration: 1.2, ease: 'power3.out',
+                scrollTrigger: { trigger: getInTouch, start: 'top 85%' }
+            });
+        }
+
+        // ── Clinical Hours Card ──
+        const hoursCard = document.querySelector('.bg-primary-container.p-10');
+        if (hoursCard) {
+            gsap.from(hoursCard, {
+                y: 60, opacity: 0, duration: 0.9, ease: 'power3.out',
+                scrollTrigger: { trigger: hoursCard, start: 'top 85%' }
+            });
+        }
+
+        // ── Contact Form ──
+        const contactForm = document.querySelector('.lg\\:col-span-7.bg-surface-container-low');
+        if (contactForm) {
+            gsap.from(contactForm, {
+                y: 50, opacity: 0, duration: 0.9, ease: 'power3.out',
+                scrollTrigger: { trigger: contactForm, start: 'top 85%' }
+            });
+        }
+
+        // ── Contact Info Cards ──
+        const contactInfoCards = document.querySelectorAll('.lg\\:col-span-5 .bg-surface-container-low');
+        contactInfoCards.forEach((card, i) => {
+            gsap.from(card, {
+                x: 50, opacity: 0, duration: 0.7, ease: 'power3.out',
+                delay: i * 0.15,
+                scrollTrigger: { trigger: card, start: 'top 90%' }
+            });
+        });
+
+        // ── Map image ──
+        const mapImage = document.querySelector('.lg\\:col-span-5 .relative.h-\\[400px\\]');
+        if (mapImage) {
+            gsap.from(mapImage, {
+                y: 40, opacity: 0, scale: 0.95, duration: 0.9, ease: 'power3.out',
+                scrollTrigger: { trigger: mapImage, start: 'top 90%' }
+            });
+        }
+
+        // ── Join the Collective ──
+        const collective = document.querySelector('.bg-secondary-container\\/30');
+        if (collective) {
+            gsap.from(collective, {
+                y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+                scrollTrigger: { trigger: collective, start: 'top 85%' }
+            });
+            gsap.from(collective.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: collective, start: 'top 80%' },
+                delay: 0.2
+            });
+        }
+
+        // ── Footer stagger ──
+        const footerCols = document.querySelectorAll('footer .grid > div');
+        footerCols.forEach((col, i) => {
+            gsap.from(col, {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out',
+                delay: i * 0.1,
+                scrollTrigger: { trigger: col, start: 'top 95%' }
+            });
+        });
+
+        // ── Parallax on floating blurs ──
+        document.querySelectorAll('.blur-3xl, .blur-\\[100px\\]').forEach(el => {
+            gsap.to(el, {
+                y: -40,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        });
+
+        // ── Smooth parallax on hero image ──
+        const heroImg = document.querySelector('[data-purpose="hero-image"] img');
+        if (heroImg) {
+            gsap.to(heroImg, {
+                y: -30,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: heroImg.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1.5
+                }
+            });
+        }
+
+    } // end initAnimations
+
+}); // end DOMContentLoaded
+</script>
+
+</body>
+</html>

@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Implants & Prosthetics - Lume Dental</title>
+<!-- Typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'lume-dark': '#131c15',
+            'lume-blue': '#a9eaf7',
+            'lume-gray': '#f4f5f7',
+            'lume-white': '#ffffff',
+            "surface-container": "#edeef0",
+            "primary": "#000000",
+            "outline-variant": "#c4c8c1",
+            "surface-container-lowest": "#ffffff",
+            "background": "#f8f9fb",
+            "on-primary-container": "#7c867d",
+            "error-container": "#ffdad6",
+            "tertiary": "#000000",
+            "surface-tint": "#576158",
+            "surface-dim": "#d9dadc",
+            "primary-container": "#151e17",
+            "on-background": "#191c1e",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#25181b",
+            "surface-container-low": "#f3f4f6",
+            "on-primary-fixed-variant": "#3f4941",
+            "on-tertiary-fixed": "#25181b",
+            "primary-fixed-dim": "#bfc9be",
+            "secondary-fixed-dim": "#90d1dd",
+            "tertiary-fixed-dim": "#d8c1c5",
+            "error": "#ba1a1a",
+            "on-tertiary": "#ffffff",
+            "inverse-surface": "#2e3132",
+            "on-secondary-fixed": "#001f24",
+            "on-surface": "#191c1e",
+            "secondary": "#216772",
+            "inverse-primary": "#bfc9be",
+            "primary-fixed": "#dbe5da",
+            "on-tertiary-fixed-variant": "#534246",
+            "outline": "#747873",
+            "surface": "#f8f9fb",
+            "on-primary-fixed": "#151e17",
+            "on-secondary-fixed-variant": "#004e59",
+            "on-surface-variant": "#444843",
+            "inverse-on-surface": "#f0f1f3",
+            "on-primary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#e7e8ea",
+            "tertiary-fixed": "#f5dde0",
+            "surface-variant": "#e1e2e4",
+            "surface-container-highest": "#e1e2e4",
+            "on-secondary-container": "#266b77",
+            "on-tertiary-container": "#937f82",
+            "on-error": "#ffffff",
+            "secondary-fixed": "#acedfa",
+            "surface-bright": "#f8f9fb",
+            "secondary-container": "#a9eaf7"
+          },
+          fontFamily: {
+            'unbounded': ['Unbounded', 'sans-serif'],
+            'manrope': ['Manrope', 'sans-serif'],
+            "headline": ["Space Grotesk"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+        }
+      }
+    }
+</script>
+<style>
+    /* ── Base ── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Manrope', sans-serif;
+        color: #131c15;
+        background-color: #ced9db;
+        overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'Unbounded', sans-serif; letter-spacing: -0.02em; line-height: 1.1; }
+    .text-balance { text-wrap: balance; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .unbounded { font-family: 'Unbounded', sans-serif; }
+    .manrope { font-family: 'Manrope', sans-serif; }
+
+    /* ── Lume Glow ── */
+    .lume-glow { box-shadow: 0 40px 60px -20px rgba(21, 30, 23, 0.05); }
+
+    /* ── Container ── */
+    .container-wrapper {
+        max-width: 1280px;
+        margin: 2rem auto;
+        background-color: #f4f5f7;
+        border-radius: 40px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ── Glassmorphism ── */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+    }
+
+    /* ── Pill Button ── */
+    .pill-button {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, box-shadow 0.4s ease;
+    }
+    .pill-button:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    .pill-button:active {
+        transform: translateY(0) scale(0.98);
+    }
+
+    /* ── Smooth scroll ── */
+    html { scroll-behavior: smooth; }
+
+    /* ── Loading screen ── */
+    .loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #131c15;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .loader-text {
+        font-family: 'Unbounded', sans-serif;
+        color: #a9eaf7;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        opacity: 0;
+    }
+    .loader-bar-track {
+        width: 200px;
+        height: 3px;
+        background: rgba(169, 234, 247, 0.15);
+        border-radius: 10px;
+        overflow: hidden;
+        opacity: 0;
+    }
+    .loader-bar {
+        width: 0%;
+        height: 100%;
+        background: #a9eaf7;
+        border-radius: 10px;
+    }
+
+    /* ── Nav link hover ── */
+    nav > a, nav > .relative > button {
+        position: relative;
+        transition: color 0.3s ease;
+    }
+    nav > a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #a9eaf7;
+        border-radius: 2px;
+        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    nav > a:hover::after { width: 100%; }
+    nav > a:hover { color: #216772; }
+    .group\/dropdown:hover > button { color: #216772; }
+
+    /* ── Card hover ── */
+    .service-card {
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.5s ease;
+    }
+    .service-card:hover {
+        box-shadow: 0 20px 60px -15px rgba(169, 234, 247, 0.25);
+    }
+
+    /* ── Image reveal overlay ── */
+    .img-reveal {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* ── Focus styles ── */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+        outline: 2px solid #a9eaf7;
+        outline-offset: 2px;
+    }
+
+    /* ── Smooth image zoom ── */
+    .img-zoom {
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .img-zoom:hover {
+        transform: scale(1.03);
+    }
+
+    /* ── Footer link underline ── */
+    footer li {
+        transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+    footer li:hover {
+        opacity: 1 !important;
+        transform: translateX(4px);
+    }
+
+    /* ── FAQ accordion ── */
+    .faq-item {
+        transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-item:hover {
+        background: rgba(169, 234, 247, 0.05);
+    }
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+        opacity: 0;
+    }
+    .faq-answer.open {
+        opacity: 1;
+    }
+    .faq-icon {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-icon.rotated {
+        transform: rotate(45deg);
+    }
+
+    /* ── Step card ── */
+    .step-card {
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .step-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 60px -15px rgba(169, 234, 247, 0.2);
+    }
+
+    /* ── Benefit card ── */
+    .benefit-card {
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .benefit-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 60px -15px rgba(169, 234, 247, 0.2);
+    }
+</style>
+</head>
+<body class="p-4 md:p-8">
+
+<!-- ══════════ LOADER ══════════ -->
+<div class="loader" id="loader">
+    <div class="loader-text" id="loaderText">Lume Dental</div>
+    <div class="loader-bar-track" id="loaderTrack">
+        <div class="loader-bar" id="loaderBar"></div>
+    </div>
+</div>
+
+<!-- ══════════ MAIN CONTAINER ══════════ -->
+<main class="container-wrapper" id="mainContainer" style="opacity:0;">
+
+<!-- ══════════ NAVIGATION ══════════ -->
+<header class="flex items-center justify-between px-10 py-8 bg-transparent" data-purpose="main-navigation" style="position:relative;z-index:50;">
+    <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-lume-dark rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white fill-current" viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>
+        </div>
+        <span class="font-unbounded font-bold text-lg tracking-tight">Lume Dental</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <div class="relative group/dropdown">
+            <button class="flex items-center gap-1 hover:text-secondary transition-colors duration-300 focus:outline-none" type="button">
+                Services
+                <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover/dropdown:rotate-180">expand_more</span>
+            </button>
+            <div class="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-[opacity,visibility] duration-300 z-50">
+                <div class="bg-white rounded-2xl shadow-xl p-3 min-w-[240px] border border-lume-gray">
+                    <a href="teeth-whitening.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>flare</span>
+                        <span class="text-sm font-medium text-on-surface">Teeth Whitening</span>
+                    </a>
+                    <a href="porcelain-veneers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>layers</span>
+                        <span class="text-sm font-medium text-on-surface">Porcelain Veneers</span>
+                    </a>
+                    <a href="smile-makeovers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>self_improvement</span>
+                        <span class="text-sm font-medium text-on-surface">Smile Makeovers</span>
+                    </a>
+                    <a href="implants-prosthetics.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>component_exchange</span>
+                        <span class="text-sm font-medium text-on-surface">Implants & Prosthetics</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <a href="index.html#about">About us</a>
+        <a href="index.html#services">Our Work</a>
+        <a href="index.html#contacts">Contacts</a>
+    </nav>
+    <a href="index.html#contacts" class="bg-lume-dark text-white px-6 py-3 rounded-full text-sm font-medium pill-button inline-block no-underline">
+        Book an Appointment
+    </a>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="px-6 md:px-10 pb-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-start" data-purpose="hero-section">
+    <div class="flex flex-col gap-8 pt-6 md:pt-10">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm manrope text-on-surface-variant" aria-label="Breadcrumb">
+            <a href="index.html" class="hover:text-secondary transition-colors duration-300">Home</a>
+            <span class="material-symbols-outlined text-base">chevron_right</span>
+            <a href="index.html#services" class="hover:text-secondary transition-colors duration-300">Services</a>
+            <span class="material-symbols-outlined text-base">chevron_right</span>
+            <span class="text-lume-dark font-semibold">Implants &amp; Prosthetics</span>
+        </nav>
+
+        <h1 class="text-5xl lg:text-6xl font-extrabold text-lume-dark hero-title text-balance">
+            Foundations That Last a <span class="text-secondary">Lifetime</span>
+        </h1>
+        <p class="text-lg text-on-surface-variant max-w-lg leading-[1.7] hero-subtitle">
+            Dental implants are the gold standard in tooth replacement — biocompatible titanium roots fused with living bone, crowned with hand-crafted porcelain indistinguishable from nature.
+        </p>
+        <div class="hero-cta">
+            <button class="bg-lume-dark text-white px-8 py-4 rounded-full text-sm font-semibold pill-button inline-flex items-center gap-2">
+                Book a Consultation
+                <span class="material-symbols-outlined text-lg">arrow_forward</span>
+            </button>
+        </div>
+
+        <!-- Working Hours + Book Cards -->
+        <div class="flex flex-col sm:flex-row gap-4 mt-6 hero-cards">
+            <div class="bg-white p-6 rounded-[2rem] flex-1 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-500">
+                <h4 class="font-bold text-sm mb-4">Working Hours</h4>
+                <div class="flex justify-between text-xs text-gray-500 mb-2">
+                    <span>Monday — Friday</span>
+                    <span class="text-lume-dark font-semibold">9AM — 9PM</span>
+                </div>
+                <div class="flex justify-between text-xs text-gray-500 mb-6">
+                    <span>Saturday, Sunday</span>
+                    <span class="text-lume-dark font-semibold">10AM — 6PM</span>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-xl flex items-center justify-between">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Today <span class="text-lume-dark">Tuesday, 2.4PM</span></span>
+                </div>
+            </div>
+            <a href="index.html#contacts" class="bg-lume-blue p-6 rounded-[2rem] flex-1 flex flex-col justify-between shadow-sm group cursor-pointer hover:shadow-lg transition-shadow duration-500 no-underline">
+                <div class="flex justify-end">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-4 h-4 transform rotate-45 group-hover:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                    </div>
+                </div>
+                <h3 class="font-unbounded font-bold text-xl text-lume-dark mt-8 leading-tight">Book an Appointment</h3>
+            </a>
+        </div>
+    </div>
+    <div class="relative w-full aspect-[4/5] rounded-[3rem] overflow-hidden shadow-xl img-reveal" data-purpose="hero-image">
+        <img alt="Dental implant illustration" class="w-full h-full object-cover img-zoom" src="Assets/Images/Dental Implants.png"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+        <div class="absolute inset-0 bg-secondary/10 mix-blend-multiply"></div>
+    </div>
+</section>
+
+<!-- ══════════ UNDERSTANDING IMPLANTS ══════════ -->
+<section class="bg-white rounded-[3rem] mx-4 mb-10 p-8 md:p-16" data-purpose="understanding-section">
+    <div class="mb-6">
+        <span class="inline-block bg-lume-gray px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Restorative Science</span>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-lume-dark">What Are Dental Implants?</h2>
+        </div>
+        <div class="space-y-6">
+            <p class="text-on-surface-variant leading-[1.7]">
+                A dental implant is a small titanium or zirconia post surgically placed into the jawbone, where it fuses with living bone tissue through a process called osseointegration. This creates an anchor as stable as — or stronger than — a natural tooth root.
+            </p>
+            <p class="text-on-surface-variant leading-[1.7]">
+                Once integrated, a custom abutment and porcelain crown are attached, restoring full function and aesthetics. Unlike bridges, implants preserve adjacent teeth and stimulate the jawbone, preventing the bone loss that follows tooth extraction.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ IMPLANT TYPES ══════════ -->
+<section class="bg-surface-container-low rounded-[4rem] mx-4 mb-10 p-8 md:p-16" data-purpose="implant-types-section">
+    <div class="text-center mb-12">
+        <span class="inline-block bg-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">Treatment Options</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-lume-dark">Implant Types</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card 1 -->
+        <div class="bg-white p-8 md:p-10 rounded-[2.5rem] lume-glow service-card flex flex-col">
+            <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center mb-8 shrink-0">
+                <span class="material-symbols-outlined text-secondary text-3xl">looks_one</span>
+            </div>
+            <h3 class="font-unbounded font-bold text-xl mb-4">Single Tooth Implant</h3>
+            <p class="text-on-surface-variant leading-[1.7] text-sm">
+                Replaces an individual missing tooth with a titanium post and custom porcelain crown. The adjacent teeth remain untouched and uncompromised.
+            </p>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-white p-8 md:p-10 rounded-[2.5rem] lume-glow service-card flex flex-col">
+            <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center mb-8 shrink-0">
+                <span class="material-symbols-outlined text-secondary text-3xl">linear_scale</span>
+            </div>
+            <h3 class="font-unbounded font-bold text-xl mb-4">Implant Bridge</h3>
+            <p class="text-on-surface-variant leading-[1.7] text-sm">
+                For 3+ consecutive missing teeth, two implant posts support a fixed porcelain bridge — eliminating the need for a removable partial denture.
+            </p>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-white p-8 md:p-10 rounded-[2.5rem] lume-glow service-card flex flex-col">
+            <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center mb-8 shrink-0">
+                <span class="material-symbols-outlined text-secondary text-3xl">select_all</span>
+            </div>
+            <h3 class="font-unbounded font-bold text-xl mb-4">Full-Arch Restoration</h3>
+            <p class="text-on-surface-variant leading-[1.7] text-sm">
+                The All-on-4 or All-on-6 protocol anchors a complete arch of teeth on just 4–6 strategically placed implants. Fixed, permanent, and life-changing.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ THE PROCESS ══════════ -->
+<section class="bg-white rounded-[3rem] mx-4 mb-10 p-8 md:p-16" data-purpose="process-section">
+    <div class="text-center mb-12">
+        <span class="inline-block bg-lume-gray px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">How It Works</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-lume-dark">The Process</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Step 1 -->
+        <div class="bg-lume-gray p-8 md:p-10 rounded-[2.5rem] step-card">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+                    <span class="font-unbounded font-bold text-secondary text-lg">01</span>
+                </div>
+                <h3 class="font-unbounded font-bold text-lg">Diagnostic Imaging</h3>
+            </div>
+            <p class="text-on-surface-variant leading-[1.7] text-sm">
+                CBCT 3D scanning maps your bone density, nerve pathways, and sinus proximity. This data drives surgical planning with sub-millimetre accuracy.
+            </p>
+        </div>
+        <!-- Step 2 -->
+        <div class="bg-lume-gray p-8 md:p-10 rounded-[2.5rem] step-card">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+                    <span class="font-unbounded font-bold text-secondary text-lg">02</span>
+                </div>
+                <h3 class="font-unbounded font-bold text-lg">Surgical Placement</h3>
+            </div>
+            <p class="text-on-surface-variant leading-[1.7] text-sm">
+                Under local anaesthesia or conscious sedation, the titanium post is placed into the jawbone. The procedure typically takes 30–60 minutes per implant.
+            </p>
+        </div>
+        <!-- Step 3 -->
+        <div class="bg-lume-gray p-8 md:p-10 rounded-[2.5rem] step-card">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+                    <span class="font-unbounded font-bold text-secondary text-lg">03</span>
+                </div>
+                <h3 class="font-unbounded font-bold text-lg">Osseointegration</h3>
+            </div>
+            <p class="text-on-surface-variant leading-[1.7] text-sm">
+                Over 3–6 months, the implant fuses with your bone at a cellular level. During this period, a temporary restoration maintains aesthetics and function.
+            </p>
+        </div>
+        <!-- Step 4 -->
+        <div class="bg-lume-gray p-8 md:p-10 rounded-[2.5rem] step-card">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+                    <span class="font-unbounded font-bold text-secondary text-lg">04</span>
+                </div>
+                <h3 class="font-unbounded font-bold text-lg">Abutment &amp; Impression</h3>
+            </div>
+            <p class="text-on-surface-variant leading-[1.7] text-sm">
+                Once integration is confirmed, a precision abutment is attached and digital impressions are taken for your final crown fabrication.
+            </p>
+        </div>
+    </div>
+    <!-- Step 5 full width -->
+    <div class="bg-lume-blue p-8 md:p-10 rounded-[2.5rem] step-card">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0">
+                <span class="font-unbounded font-bold text-secondary text-lg">05</span>
+            </div>
+            <h3 class="font-unbounded font-bold text-lg text-lume-dark">Crown Delivery</h3>
+        </div>
+        <p class="text-lume-dark leading-[1.7] max-w-2xl">
+            Your custom porcelain crown — shade-matched and anatomically contoured — is permanently cemented. The result is indistinguishable from a natural tooth.
+        </p>
+    </div>
+</section>
+
+<!-- ══════════ BENEFITS ══════════ -->
+<section class="bg-white rounded-[3rem] mx-4 mb-10 p-8 md:p-16" data-purpose="benefits-section">
+    <div class="text-center mb-12">
+        <span class="inline-block bg-lume-gray px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">Advantages</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-lume-dark">Why Lume Implants</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Benefit 1 -->
+        <div class="bg-lume-gray p-8 md:p-10 rounded-[2.5rem] benefit-card flex items-start gap-6">
+            <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-secondary text-3xl">foundation</span>
+            </div>
+            <div>
+                <h3 class="font-unbounded font-bold text-lg mb-3">Bone Preservation</h3>
+                <p class="text-on-surface-variant leading-[1.7] text-sm">
+                    Implants stimulate the jawbone, preventing the resorption that occurs after tooth loss.
+                </p>
+            </div>
+        </div>
+        <!-- Benefit 2 -->
+        <div class="bg-lume-gray p-8 md:p-10 rounded-[2.5rem] benefit-card flex items-start gap-6">
+            <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-secondary text-3xl">all_inclusive</span>
+            </div>
+            <div>
+                <h3 class="font-unbounded font-bold text-lg mb-3">Lifetime Durability</h3>
+                <p class="text-on-surface-variant leading-[1.7] text-sm">
+                    With proper care, titanium implants can last a lifetime. The crown may need replacement after 15–20 years.
+                </p>
+            </div>
+        </div>
+        <!-- Benefit 3 -->
+        <div class="bg-lume-gray p-8 md:p-10 rounded-[2.5rem] benefit-card flex items-start gap-6">
+            <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-secondary text-3xl">restaurant</span>
+            </div>
+            <div>
+                <h3 class="font-unbounded font-bold text-lg mb-3">Full Function Restored</h3>
+                <p class="text-on-surface-variant leading-[1.7] text-sm">
+                    Eat, speak, and smile with complete confidence. Implants restore 100% of natural bite force.
+                </p>
+            </div>
+        </div>
+        <!-- Benefit 4 -->
+        <div class="bg-lume-gray p-8 md:p-10 rounded-[2.5rem] benefit-card flex items-start gap-6">
+            <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-secondary text-3xl">visibility</span>
+            </div>
+            <div>
+                <h3 class="font-unbounded font-bold text-lg mb-3">Invisible Integration</h3>
+                <p class="text-on-surface-variant leading-[1.7] text-sm">
+                    Custom crowns are shade-matched and contoured to blend seamlessly with your natural dentition.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="bg-primary-container rounded-[3rem] mx-4 mb-10 p-8 md:p-16" data-purpose="faq-section">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-lume-blue">Common Questions</h2>
+    </div>
+    <div class="max-w-3xl mx-auto space-y-4">
+        <!-- FAQ 1 -->
+        <div class="faq-item rounded-[1.5rem] border border-white/5 overflow-hidden">
+            <button class="faq-trigger w-full flex items-center justify-between p-6 md:p-8 text-left" aria-expanded="false">
+                <span class="font-unbounded font-bold text-white text-sm md:text-base pr-4">Am I a candidate for dental implants?</span>
+                <span class="material-symbols-outlined text-lume-blue text-2xl faq-icon shrink-0">add</span>
+            </button>
+            <div class="faq-answer px-6 md:px-8 pb-8">
+                <p class="text-white/70 leading-[1.7] manrope">
+                    Most adults with adequate bone density are candidates. Conditions like uncontrolled diabetes or heavy smoking may require additional assessment. We offer bone grafting for patients with insufficient bone volume.
+                </p>
+            </div>
+        </div>
+        <!-- FAQ 2 -->
+        <div class="faq-item rounded-[1.5rem] border border-white/5 overflow-hidden">
+            <button class="faq-trigger w-full flex items-center justify-between p-6 md:p-8 text-left" aria-expanded="false">
+                <span class="font-unbounded font-bold text-white text-sm md:text-base pr-4">Is implant surgery painful?</span>
+                <span class="material-symbols-outlined text-lume-blue text-2xl faq-icon shrink-0">add</span>
+            </button>
+            <div class="faq-answer px-6 md:px-8 pb-8">
+                <p class="text-white/70 leading-[1.7] manrope">
+                    The procedure is performed under local anaesthesia or sedation — most patients report less discomfort than a tooth extraction. Post-operative soreness is typically managed with over-the-counter pain relief.
+                </p>
+            </div>
+        </div>
+        <!-- FAQ 3 -->
+        <div class="faq-item rounded-[1.5rem] border border-white/5 overflow-hidden">
+            <button class="faq-trigger w-full flex items-center justify-between p-6 md:p-8 text-left" aria-expanded="false">
+                <span class="font-unbounded font-bold text-white text-sm md:text-base pr-4">How long does the full process take?</span>
+                <span class="material-symbols-outlined text-lume-blue text-2xl faq-icon shrink-0">add</span>
+            </button>
+            <div class="faq-answer px-6 md:px-8 pb-8">
+                <p class="text-white/70 leading-[1.7] manrope">
+                    From placement to final crown, the process typically takes 4–6 months to allow for complete osseointegration. Immediate-load protocols may be available for select cases.
+                </p>
+            </div>
+        </div>
+        <!-- FAQ 4 -->
+        <div class="faq-item rounded-[1.5rem] border border-white/5 overflow-hidden">
+            <button class="faq-trigger w-full flex items-center justify-between p-6 md:p-8 text-left" aria-expanded="false">
+                <span class="font-unbounded font-bold text-white text-sm md:text-base pr-4">How do I care for my implant?</span>
+                <span class="material-symbols-outlined text-lume-blue text-2xl faq-icon shrink-0">add</span>
+            </button>
+            <div class="faq-answer px-6 md:px-8 pb-8">
+                <p class="text-white/70 leading-[1.7] manrope">
+                    Implants require the same care as natural teeth — brushing, flossing, and regular professional cleanings. There is no special maintenance required.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ CTA ══════════ -->
+<section class="relative mx-4 mb-10 rounded-[3rem] overflow-hidden p-12 md:p-24 text-center" data-purpose="cta-section" style="background: linear-gradient(135deg, #216772 0%, #131c15 100%);">
+    <!-- Blur orbs -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-lume-blue rounded-full blur-[100px] -mr-48 -mt-48 opacity-30 cta-orb"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary rounded-full blur-[100px] -ml-32 -mb-32 opacity-20 cta-orb"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-lume-blue rounded-full blur-[120px] opacity-10 cta-orb"></div>
+    <div class="relative z-10 max-w-2xl mx-auto">
+        <h2 class="unbounded text-4xl md:text-5xl font-bold tracking-tighter text-white mb-6">Rebuild With Confidence</h2>
+        <p class="manrope text-lg text-white/70 mb-10">Take the first step toward a permanent, natural-looking restoration.</p>
+        <button class="bg-lume-blue text-lume-dark px-10 py-4 rounded-full font-bold tracking-wide text-sm pill-button inline-flex items-center gap-2">
+            Book Your Implant Consultation
+            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+        </button>
+    </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="bg-[#131c15] text-[#f8f9fb] w-full rounded-t-[3rem]">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 px-12 py-20 max-w-[1920px] mx-auto">
+        <div class="space-y-8">
+            <a href="index.html" class="unbounded text-2xl font-bold text-[#a9eaf7] inline-block">Lume Dental</a>
+            <p class="manrope leading-relaxed opacity-60">High-End Clinical Curators. Redefining the dental experience through precision and artistry.</p>
+        </div>
+        <div>
+            <h5 class="unbounded uppercase tracking-widest text-sm mb-8 text-[#a9eaf7]">Services</h5>
+            <ul class="space-y-4 manrope opacity-40">
+                <li><a href="teeth-whitening.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Teeth Whitening</a></li>
+                <li><a href="porcelain-veneers.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Porcelain Veneers</a></li>
+                <li><a href="smile-makeovers.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Smile Makeovers</a></li>
+                <li><a href="implants-prosthetics.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Implants &amp; Prosthetics</a></li>
+            </ul>
+        </div>
+        <div class="space-y-8">
+            <h5 class="unbounded uppercase tracking-widest text-sm mb-8 text-[#a9eaf7]">Follow Us</h5>
+            <div class="flex gap-6">
+                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-[#a9eaf7] hover:text-[#a9eaf7] transition-[color,border-color,transform] duration-300 cursor-pointer hover:scale-110">
+                    <span class="material-symbols-outlined">share</span>
+                </div>
+                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-[#a9eaf7] hover:text-[#a9eaf7] transition-[color,border-color,transform] duration-300 cursor-pointer hover:scale-110">
+                    <span class="material-symbols-outlined">language</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="px-12 py-8 border-t border-white/5 max-w-[1920px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="manrope text-sm opacity-40">&copy; 2024 Lume Dental. High-End Clinical Curators.</p>
+        <div class="flex gap-8 text-xs manrope uppercase tracking-[0.2em] opacity-40">
+            <span>London</span>
+            <span>New York</span>
+            <span>Zurich</span>
+        </div>
+    </div>
+</footer>
+
+</main>
+
+<!-- ══════════ GSAP ANIMATIONS ══════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ── Register plugins ──
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    // ── Loading Animation ──
+    const loaderTl = gsap.timeline({
+        onComplete: () => {
+            gsap.to('#loader', {
+                yPercent: -100,
+                duration: 0.8,
+                ease: 'power4.inOut',
+                onComplete: () => {
+                    document.getElementById('loader').style.display = 'none';
+                    initAnimations();
+                }
+            });
+        }
+    });
+
+    loaderTl
+        .to('#loaderText', { opacity: 1, duration: 0.5, ease: 'power2.out' })
+        .to('#loaderTrack', { opacity: 1, duration: 0.3 }, '-=0.2')
+        .to('#loaderBar', { width: '100%', duration: 1.2, ease: 'power2.inOut' }, '-=0.1');
+
+    // ── FAQ Toggle ──
+    document.querySelectorAll('.faq-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const item = trigger.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const icon = trigger.querySelector('.faq-icon');
+            const isOpen = answer.classList.contains('open');
+
+            // Close all others
+            document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
+                openAnswer.style.maxHeight = '0px';
+                openAnswer.classList.remove('open');
+                openAnswer.parentElement.querySelector('.faq-icon').classList.remove('rotated');
+                openAnswer.parentElement.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isOpen) {
+                answer.classList.add('open');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                icon.classList.add('rotated');
+                trigger.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    function initAnimations() {
+
+        // ── Main container fade in ──
+        gsap.to('#mainContainer', { opacity: 1, duration: 0.6, ease: 'power2.out' });
+
+        // ── Navigation ──
+        const header = document.querySelector('header');
+        gsap.from(header.querySelector('a.flex'), {
+            x: -30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.1
+        });
+        gsap.from(header.querySelector('nav'), {
+            y: -15, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2
+        });
+        gsap.from(header.querySelector('button'), {
+            x: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.3
+        });
+
+        // ── Hero Breadcrumb ──
+        gsap.from('[aria-label="Breadcrumb"]', {
+            y: 20, opacity: 0, duration: 0.6, ease: 'power3.out', delay: 0.2
+        });
+
+        // ── Hero Title ──
+        gsap.from('.hero-title', {
+            y: 60, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.3
+        });
+
+        // ── Hero Subtitle ──
+        gsap.from('.hero-subtitle', {
+            y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.6
+        });
+
+        // ── Hero CTA ──
+        gsap.from('.hero-cta', {
+            y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.8
+        });
+
+        // ── Hero Cards ──
+        gsap.from('.hero-cards', {
+            y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 1.0
+        });
+
+        // ── Hero Image Reveal ──
+        const heroImgReveal = document.querySelector('[data-purpose="hero-image"]');
+        if (heroImgReveal) {
+            gsap.fromTo(heroImgReveal,
+                { clipPath: 'inset(0 100% 0 0)', scale: 0.95 },
+                { clipPath: 'inset(0 0% 0 0)', scale: 1, duration: 1.4, ease: 'power4.inOut', delay: 0.4 }
+            );
+        }
+
+        // ── Understanding Section ──
+        const understandingSection = document.querySelector('[data-purpose="understanding-section"]');
+        if (understandingSection) {
+            gsap.from(understandingSection.querySelector('span'), {
+                y: 20, opacity: 0, duration: 0.6, ease: 'power3.out',
+                scrollTrigger: { trigger: understandingSection, start: 'top 80%' }
+            });
+            gsap.from(understandingSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: understandingSection, start: 'top 75%' }
+            });
+            gsap.from(understandingSection.querySelectorAll('p'), {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.15,
+                scrollTrigger: { trigger: understandingSection, start: 'top 70%' }
+            });
+        }
+
+        // ── Implant Types Cards ──
+        const typesSection = document.querySelector('[data-purpose="implant-types-section"]');
+        if (typesSection) {
+            gsap.from(typesSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: typesSection, start: 'top 80%' }
+            });
+            gsap.from(typesSection.querySelectorAll('.service-card'), {
+                y: 80, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.12,
+                scrollTrigger: { trigger: typesSection, start: 'top 75%' }
+            });
+        }
+
+        // ── Process Steps ──
+        const processSection = document.querySelector('[data-purpose="process-section"]');
+        if (processSection) {
+            gsap.from(processSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: processSection, start: 'top 80%' }
+            });
+            gsap.from(processSection.querySelectorAll('.step-card'), {
+                y: 60, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1,
+                scrollTrigger: { trigger: processSection, start: 'top 75%' }
+            });
+        }
+
+        // ── Benefits ──
+        const benefitsSection = document.querySelector('[data-purpose="benefits-section"]');
+        if (benefitsSection) {
+            gsap.from(benefitsSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: benefitsSection, start: 'top 80%' }
+            });
+            gsap.from(benefitsSection.querySelectorAll('.benefit-card'), {
+                y: 60, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12,
+                scrollTrigger: { trigger: benefitsSection, start: 'top 75%' }
+            });
+        }
+
+        // ── FAQ Section ──
+        const faqSection = document.querySelector('[data-purpose="faq-section"]');
+        if (faqSection) {
+            gsap.from(faqSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: faqSection, start: 'top 80%' }
+            });
+            gsap.from(faqSection.querySelectorAll('.faq-item'), {
+                y: 40, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1,
+                scrollTrigger: { trigger: faqSection, start: 'top 75%' }
+            });
+        }
+
+        // ── CTA Section ──
+        const ctaSection = document.querySelector('[data-purpose="cta-section"]');
+        if (ctaSection) {
+            gsap.from(ctaSection.querySelector('h2'), {
+                y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+                scrollTrigger: { trigger: ctaSection, start: 'top 85%' }
+            });
+            gsap.from(ctaSection.querySelector('p'), {
+                y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: ctaSection, start: 'top 80%' },
+                delay: 0.2
+            });
+            gsap.from(ctaSection.querySelector('button'), {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out',
+                scrollTrigger: { trigger: ctaSection, start: 'top 75%' },
+                delay: 0.4
+            });
+        }
+
+        // ── Parallax on blur orbs ──
+        document.querySelectorAll('.cta-orb').forEach(el => {
+            gsap.to(el, {
+                y: -40,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        });
+
+        // ── Footer stagger ──
+        const footerCols = document.querySelectorAll('footer .grid > div');
+        footerCols.forEach((col, i) => {
+            gsap.from(col, {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out',
+                delay: i * 0.1,
+                scrollTrigger: { trigger: col, start: 'top 95%' }
+            });
+        });
+
+        // ── Smooth parallax on hero image ──
+        const heroImg = document.querySelector('[data-purpose="hero-image"] img');
+        if (heroImg) {
+            gsap.to(heroImg, {
+                y: -30,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: heroImg.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1.5
+                }
+            });
+        }
+
+    } // end initAnimations
+
+}); // end DOMContentLoaded
+</script>
+
+</body>
+</html>

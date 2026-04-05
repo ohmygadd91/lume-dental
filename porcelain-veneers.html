@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Porcelain Veneers — Lume Dental</title>
+<!-- Typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- GSAP + ScrollTrigger + ScrollToPlugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'lume-dark': '#131c15',
+            'lume-blue': '#a9eaf7',
+            'lume-gray': '#f4f5f7',
+            'lume-white': '#ffffff',
+            "surface-container": "#edeef0",
+            "primary": "#000000",
+            "outline-variant": "#c4c8c1",
+            "surface-container-lowest": "#ffffff",
+            "background": "#f8f9fb",
+            "on-primary-container": "#7c867d",
+            "primary-container": "#151e17",
+            "on-background": "#191c1e",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#f3f4f6",
+            "on-surface": "#191c1e",
+            "secondary": "#216772",
+            "outline": "#747873",
+            "surface": "#f8f9fb",
+            "on-surface-variant": "#444843",
+            "on-primary": "#ffffff",
+            "surface-container-high": "#e7e8ea",
+            "surface-variant": "#e1e2e4",
+            "on-secondary-container": "#266b77",
+            "secondary-container": "#a9eaf7"
+          },
+          fontFamily: {
+            'unbounded': ['Unbounded', 'sans-serif'],
+            'manrope': ['Manrope', 'sans-serif'],
+          },
+        }
+      }
+    }
+</script>
+<style>
+    /* ── Base ── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Manrope', sans-serif;
+        color: #131c15;
+        background-color: #ced9db;
+        overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'Unbounded', sans-serif; letter-spacing: -0.02em; line-height: 1.1; }
+    .text-balance { text-wrap: balance; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .unbounded { font-family: 'Unbounded', sans-serif; }
+    .manrope { font-family: 'Manrope', sans-serif; }
+
+    /* ── Lume Glow ── */
+    .lume-glow { box-shadow: 0 40px 60px -20px rgba(21, 30, 23, 0.05); }
+
+    /* ── Container ── */
+    .container-wrapper {
+        max-width: 1280px;
+        margin: 2rem auto;
+        background-color: #f4f5f7;
+        border-radius: 40px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ── Pill Button ── */
+    .pill-button {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, box-shadow 0.4s ease;
+    }
+    .pill-button:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    .pill-button:active {
+        transform: translateY(0) scale(0.98);
+    }
+
+    /* ── Smooth scroll ── */
+    html { scroll-behavior: smooth; }
+
+    /* ── Loading screen ── */
+    .loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #131c15;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .loader-text {
+        font-family: 'Unbounded', sans-serif;
+        color: #a9eaf7;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        opacity: 0;
+    }
+    .loader-bar-track {
+        width: 200px;
+        height: 3px;
+        background: rgba(169, 234, 247, 0.15);
+        border-radius: 10px;
+        overflow: hidden;
+        opacity: 0;
+    }
+    .loader-bar {
+        width: 0%;
+        height: 100%;
+        background: #a9eaf7;
+        border-radius: 10px;
+    }
+
+    /* ── Nav link hover ── */
+    nav > a, nav > .relative > button {
+        position: relative;
+        transition: color 0.3s ease;
+    }
+    nav > a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #a9eaf7;
+        border-radius: 2px;
+        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    nav > a:hover::after { width: 100%; }
+    nav > a:hover { color: #216772; }
+    .group\/dropdown:hover > button { color: #216772; }
+
+    /* ── Card hover ── */
+    .process-card {
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .process-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 60px -15px rgba(169, 234, 247, 0.25);
+    }
+
+    .benefit-card {
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .benefit-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 60px -15px rgba(169, 234, 247, 0.25);
+    }
+
+    /* ── FAQ toggle ── */
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+        opacity: 0;
+    }
+    .faq-item.open .faq-answer {
+        opacity: 1;
+    }
+    .faq-icon {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-item.open .faq-icon {
+        transform: rotate(45deg);
+    }
+
+    /* ── Focus styles ── */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+        outline: 2px solid #a9eaf7;
+        outline-offset: 2px;
+    }
+
+    /* ── CTA arrow animation ── */
+    .cta-arrow {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .group:hover .cta-arrow,
+    button:hover .cta-arrow {
+        transform: translateX(4px);
+    }
+
+    /* ── Image zoom ── */
+    .img-zoom {
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .img-zoom:hover {
+        transform: scale(1.03);
+    }
+
+    /* ── Footer link hover ── */
+    footer li {
+        transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+    footer li:hover {
+        opacity: 1 !important;
+        transform: translateX(4px);
+    }
+</style>
+</head>
+<body class="p-4 md:p-8">
+
+<!-- ══════════ LOADER ══════════ -->
+<div class="loader" id="loader">
+    <div class="loader-text" id="loaderText">Lume Dental</div>
+    <div class="loader-bar-track" id="loaderTrack">
+        <div class="loader-bar" id="loaderBar"></div>
+    </div>
+</div>
+
+<!-- ══════════ MAIN CONTAINER ══════════ -->
+<main class="container-wrapper" id="mainContainer" style="opacity:0;">
+
+<!-- ══════════ NAVIGATION ══════════ -->
+<header class="flex items-center justify-between px-10 py-8 bg-transparent" data-purpose="main-navigation" style="position:relative;z-index:50;">
+    <a href="index.html" class="flex items-center gap-2 no-underline text-inherit">
+        <div class="w-8 h-8 bg-lume-dark rounded-md flex items-center justify-center">
+            <svg class="w-5 h-5 text-white fill-current" viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>
+        </div>
+        <span class="font-unbounded font-bold text-lg tracking-tight">Lume Dental</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <div class="relative group/dropdown">
+            <button class="flex items-center gap-1 hover:text-secondary transition-colors duration-300 focus:outline-none" type="button">
+                Services
+                <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover/dropdown:rotate-180">expand_more</span>
+            </button>
+            <div class="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-[opacity,visibility] duration-300 z-50">
+                <div class="bg-white rounded-2xl shadow-xl p-3 min-w-[240px] border border-lume-gray">
+                    <a href="teeth-whitening.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>flare</span>
+                        <span class="text-sm font-medium text-on-surface">Teeth Whitening</span>
+                    </a>
+                    <a href="porcelain-veneers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>layers</span>
+                        <span class="text-sm font-medium text-on-surface">Porcelain Veneers</span>
+                    </a>
+                    <a href="smile-makeovers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>self_improvement</span>
+                        <span class="text-sm font-medium text-on-surface">Smile Makeovers</span>
+                    </a>
+                    <a href="implants-prosthetics.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-lume-gray transition-colors duration-200">
+                        <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>component_exchange</span>
+                        <span class="text-sm font-medium text-on-surface">Implants & Prosthetics</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <a href="index.html#about">About us</a>
+        <a href="index.html#services">Our Work</a>
+        <a href="index.html#contacts">Contacts</a>
+    </nav>
+    <a href="index.html#contacts" class="bg-lume-dark text-white px-6 py-3 rounded-full text-sm font-medium pill-button inline-block no-underline">
+        Book an Appointment
+    </a>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="px-6 md:px-10 pb-20 pt-4" data-purpose="hero-section">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-sm font-manrope text-on-surface-variant mb-10" data-purpose="breadcrumb">
+        <a href="index.html" class="hover:text-secondary transition-colors duration-300">Home</a>
+        <span class="opacity-40">/</span>
+        <a href="#" class="hover:text-secondary transition-colors duration-300">Services</a>
+        <span class="opacity-40">/</span>
+        <span class="text-on-surface font-semibold">Porcelain Veneers</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <!-- Text -->
+        <div class="space-y-8" data-purpose="hero-text">
+            <h1 class="font-unbounded font-extrabold text-4xl md:text-5xl lg:text-6xl text-primary-container tracking-tighter leading-[1.05]">
+                Crafted to<br/>Perfection
+            </h1>
+            <p class="font-manrope text-on-surface-variant text-lg leading-[1.7] max-w-lg">
+                Ultra-thin porcelain shells, hand-layered by master ceramists and bonded with microscopic precision — transforming shape, shade, and symmetry in as little as two appointments.
+            </p>
+            <button class="bg-lume-dark text-white px-8 py-4 rounded-full text-sm font-bold tracking-wider pill-button flex items-center gap-3 group">
+                Book a Consultation
+                <span class="material-symbols-outlined text-lume-blue cta-arrow">arrow_forward</span>
+            </button>
+
+            <!-- Working Hours + Book Cards -->
+            <div class="flex flex-col sm:flex-row gap-4 mt-6 hero-cards">
+                <div class="bg-white p-6 rounded-[2rem] flex-1 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-500">
+                    <h4 class="font-bold text-sm mb-4">Working Hours</h4>
+                    <div class="flex justify-between text-xs text-gray-500 mb-2">
+                        <span>Monday — Friday</span>
+                        <span class="text-lume-dark font-semibold">9AM — 9PM</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-6">
+                        <span>Saturday, Sunday</span>
+                        <span class="text-lume-dark font-semibold">10AM — 6PM</span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-xl flex items-center justify-between">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Today <span class="text-lume-dark">Tuesday, 2.4PM</span></span>
+                    </div>
+                </div>
+                <a href="index.html#contacts" class="bg-lume-blue p-6 rounded-[2rem] flex-1 flex flex-col justify-between shadow-sm group cursor-pointer hover:shadow-lg transition-shadow duration-500 no-underline">
+                    <div class="flex justify-end">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-4 h-4 transform rotate-45 group-hover:rotate-90 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                        </div>
+                    </div>
+                    <h3 class="font-unbounded font-bold text-xl text-lume-dark mt-8 leading-tight">Book an Appointment</h3>
+                </a>
+            </div>
+        </div>
+
+        <!-- Image -->
+        <div class="relative rounded-[3rem] overflow-hidden" data-purpose="hero-image">
+            <div class="aspect-[4/5] w-full">
+                <img src="Assets/Images/Veneers.jpg" alt="Porcelain Veneers" class="w-full h-full object-cover img-zoom"/>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+            <div class="absolute inset-0 bg-secondary/10 mix-blend-multiply"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ WHAT ARE PORCELAIN VENEERS ══════════ -->
+<section class="mx-4 mb-8" data-purpose="explanation-section">
+    <div class="bg-white rounded-[3rem] p-10 lg:p-16">
+        <div class="max-w-3xl mx-auto">
+            <span class="inline-block bg-lume-gray text-on-surface-variant text-xs font-bold uppercase tracking-[0.15em] px-5 py-2 rounded-full mb-8">Precision Craft</span>
+            <h2 class="font-unbounded font-extrabold text-3xl md:text-4xl text-primary-container mb-8 tracking-tight">What Are Porcelain Veneers?</h2>
+            <p class="font-manrope text-on-surface-variant text-base leading-[1.7] mb-6">
+                Porcelain veneers are wafer-thin ceramic shells — typically 0.3 to 0.5 millimetres — custom-fabricated to bond permanently over the front surface of your teeth. They correct chips, gaps, discoloration, and minor misalignment in a single restorative arc.
+            </p>
+            <p class="font-manrope text-on-surface-variant text-base leading-[1.7]">
+                Each veneer at Lume Dental is hand-layered by our partnered ceramist atelier using feldspathic or lithium disilicate porcelain, chosen for its ability to mimic the translucency and light refraction of natural enamel.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ THE PROCESS ══════════ -->
+<section class="mx-4 mb-8" data-purpose="process-section">
+    <div class="bg-surface-container-low rounded-[4rem] py-20 md:py-32 px-8 md:px-16">
+        <div class="text-center mb-16">
+            <span class="inline-block bg-white text-on-surface-variant text-xs font-bold uppercase tracking-[0.15em] px-5 py-2 rounded-full mb-6">Step by Step</span>
+            <h2 class="font-unbounded font-extrabold text-3xl md:text-4xl text-primary-container tracking-tight">The Process</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <!-- Step 01 -->
+            <div class="bg-white rounded-[2.5rem] p-10 lume-glow process-card">
+                <span class="font-unbounded font-extrabold text-5xl text-lume-blue leading-none">01</span>
+                <h3 class="font-unbounded font-bold text-xl mt-6 mb-4 text-primary-container">Digital Smile Design</h3>
+                <p class="font-manrope text-on-surface-variant leading-[1.7]">
+                    Using intraoral scanning and AI-powered modelling, we create a virtual preview of your new smile before any preparation begins.
+                </p>
+            </div>
+
+            <!-- Step 02 -->
+            <div class="bg-white rounded-[2.5rem] p-10 lume-glow process-card">
+                <span class="font-unbounded font-extrabold text-5xl text-lume-blue leading-none">02</span>
+                <h3 class="font-unbounded font-bold text-xl mt-6 mb-4 text-primary-container">Minimally Invasive Preparation</h3>
+                <p class="font-manrope text-on-surface-variant leading-[1.7]">
+                    A conservative 0.3–0.5mm layer of enamel is gently reshaped. Temporary veneers are placed while your custom shells are fabricated.
+                </p>
+            </div>
+
+            <!-- Step 03 -->
+            <div class="bg-white rounded-[2.5rem] p-10 lume-glow process-card">
+                <span class="font-unbounded font-extrabold text-5xl text-lume-blue leading-none">03</span>
+                <h3 class="font-unbounded font-bold text-xl mt-6 mb-4 text-primary-container">Ceramist Fabrication</h3>
+                <p class="font-manrope text-on-surface-variant leading-[1.7]">
+                    Our partner atelier hand-layers each veneer over 7–10 days, building translucency, texture, and characterisation unique to your anatomy.
+                </p>
+            </div>
+
+            <!-- Step 04 -->
+            <div class="bg-white rounded-[2.5rem] p-10 lume-glow process-card">
+                <span class="font-unbounded font-extrabold text-5xl text-lume-blue leading-none">04</span>
+                <h3 class="font-unbounded font-bold text-xl mt-6 mb-4 text-primary-container">Precision Bonding</h3>
+                <p class="font-manrope text-on-surface-variant leading-[1.7]">
+                    Using resin cement under isolation protocol, each veneer is permanently bonded and light-cured. Final adjustments ensure a flawless bite.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ BENEFITS GRID ══════════ -->
+<section class="mx-4 mb-8" data-purpose="benefits-section">
+    <div class="bg-white rounded-[3rem] p-10 lg:p-16">
+        <div class="text-center mb-16">
+            <h2 class="font-unbounded font-extrabold text-3xl md:text-4xl text-primary-container tracking-tight">Why Choose Lume Veneers</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <!-- Benefit 1 -->
+            <div class="bg-lume-gray rounded-[2.5rem] p-10 benefit-card">
+                <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined filled text-secondary text-3xl">diamond</span>
+                </div>
+                <h3 class="font-unbounded font-bold text-lg mb-3 text-primary-container">Natural Translucency</h3>
+                <p class="font-manrope text-on-surface-variant leading-[1.7]">
+                    Feldspathic porcelain replicates the layered light behaviour of biological enamel.
+                </p>
+            </div>
+
+            <!-- Benefit 2 -->
+            <div class="bg-lume-gray rounded-[2.5rem] p-10 benefit-card">
+                <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined filled text-secondary text-3xl">schedule</span>
+                </div>
+                <h3 class="font-unbounded font-bold text-lg mb-3 text-primary-container">Two-Visit Transformation</h3>
+                <p class="font-manrope text-on-surface-variant leading-[1.7]">
+                    From consultation to final bonding, most veneer cases complete in just two appointments.
+                </p>
+            </div>
+
+            <!-- Benefit 3 -->
+            <div class="bg-lume-gray rounded-[2.5rem] p-10 benefit-card">
+                <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined filled text-secondary text-3xl">palette</span>
+                </div>
+                <h3 class="font-unbounded font-bold text-lg mb-3 text-primary-container">Shade Precision</h3>
+                <p class="font-manrope text-on-surface-variant leading-[1.7]">
+                    Custom colour matching ensures seamless integration with your adjacent natural teeth.
+                </p>
+            </div>
+
+            <!-- Benefit 4 -->
+            <div class="bg-lume-gray rounded-[2.5rem] p-10 benefit-card">
+                <div class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined filled text-secondary text-3xl">verified</span>
+                </div>
+                <h3 class="font-unbounded font-bold text-lg mb-3 text-primary-container">15+ Year Longevity</h3>
+                <p class="font-manrope text-on-surface-variant leading-[1.7]">
+                    With proper oral hygiene, high-quality porcelain veneers can last 15–20 years.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ FAQ SECTION ══════════ -->
+<section class="mx-4 mb-8" data-purpose="faq-section">
+    <div class="bg-primary-container rounded-[3rem] p-10 lg:p-16">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="font-unbounded font-extrabold text-3xl md:text-4xl text-lume-blue mb-12 tracking-tight">Common Questions</h2>
+
+            <!-- FAQ 1 -->
+            <div class="faq-item border-b border-white/10 py-6 cursor-pointer" onclick="toggleFaq(this)">
+                <div class="flex items-center justify-between gap-4">
+                    <h3 class="font-manrope font-bold text-lg text-white">How much tooth enamel is removed?</h3>
+                    <span class="material-symbols-outlined text-lume-blue faq-icon shrink-0">add</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="font-manrope text-white/60 leading-[1.7] pt-4 pb-2">
+                        Typically 0.3–0.5mm — about the thickness of a contact lens. This is considered minimally invasive and preserves the vast majority of your natural tooth structure.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="faq-item border-b border-white/10 py-6 cursor-pointer" onclick="toggleFaq(this)">
+                <div class="flex items-center justify-between gap-4">
+                    <h3 class="font-manrope font-bold text-lg text-white">Do veneers look natural?</h3>
+                    <span class="material-symbols-outlined text-lume-blue faq-icon shrink-0">add</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="font-manrope text-white/60 leading-[1.7] pt-4 pb-2">
+                        When crafted by a skilled ceramist, porcelain veneers are virtually indistinguishable from natural teeth. The layered porcelain mimics enamel's translucency and depth.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="faq-item border-b border-white/10 py-6 cursor-pointer" onclick="toggleFaq(this)">
+                <div class="flex items-center justify-between gap-4">
+                    <h3 class="font-manrope font-bold text-lg text-white">Can veneers stain?</h3>
+                    <span class="material-symbols-outlined text-lume-blue faq-icon shrink-0">add</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="font-manrope text-white/60 leading-[1.7] pt-4 pb-2">
+                        High-quality porcelain is highly resistant to staining — more so than natural enamel. However, the bonding cement at the margins can discolour over time if oral hygiene is neglected.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="faq-item border-b border-white/10 py-6 cursor-pointer" onclick="toggleFaq(this)">
+                <div class="flex items-center justify-between gap-4">
+                    <h3 class="font-manrope font-bold text-lg text-white">Are veneers reversible?</h3>
+                    <span class="material-symbols-outlined text-lume-blue faq-icon shrink-0">add</span>
+                </div>
+                <div class="faq-answer">
+                    <p class="font-manrope text-white/60 leading-[1.7] pt-4 pb-2">
+                        Because a thin layer of enamel is removed during preparation, traditional veneers are considered irreversible. We also offer no-prep veneers for select cases where no enamel removal is needed.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ CTA SECTION ══════════ -->
+<section class="mx-4 mb-8" data-purpose="cta-section">
+    <div class="bg-secondary-container/30 rounded-[4rem] p-12 md:p-24 text-center overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-secondary-container rounded-full blur-[100px] -mr-48 -mt-48 opacity-40"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary rounded-full blur-[100px] -ml-32 -mb-32 opacity-10"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-lume-blue/20 rounded-full blur-[120px] opacity-30"></div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <h2 class="font-unbounded font-extrabold text-4xl md:text-5xl tracking-tighter text-primary-container mb-6">Envision Your New Smile</h2>
+            <p class="font-manrope text-lg text-on-surface-variant mb-10 leading-[1.7]">
+                Take the first step toward a flawless, natural-looking smile. Our specialists are ready to design your transformation.
+            </p>
+            <button class="bg-primary text-on-primary px-10 py-5 rounded-full font-bold tracking-widest text-sm pill-button flex items-center gap-4 mx-auto group">
+                Book Your Veneer Consultation
+                <span class="material-symbols-outlined text-secondary-container cta-arrow">arrow_forward</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="bg-[#131c15] text-[#f8f9fb] w-full rounded-t-[3rem]">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 px-12 py-20 max-w-[1920px] mx-auto">
+        <div class="space-y-8">
+            <a href="index.html" class="no-underline">
+                <span class="unbounded text-2xl font-bold text-[#a9eaf7]">Lume Dental</span>
+            </a>
+            <p class="manrope leading-relaxed opacity-60">High-End Clinical Curators. Redefining the dental experience through precision and artistry.</p>
+        </div>
+        <div>
+            <h5 class="unbounded uppercase tracking-widest text-sm mb-8 text-[#a9eaf7]">Services</h5>
+            <ul class="space-y-4 manrope opacity-40">
+                <li><a href="teeth-whitening.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Teeth Whitening</a></li>
+                <li><a href="porcelain-veneers.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Porcelain Veneers</a></li>
+                <li><a href="smile-makeovers.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Smile Makeovers</a></li>
+                <li><a href="implants-prosthetics.html" class="hover:text-[#a9eaf7] hover:opacity-100 transition-[color,opacity] duration-300">Implants &amp; Prosthetics</a></li>
+            </ul>
+        </div>
+        <div class="space-y-8">
+            <h5 class="unbounded uppercase tracking-widest text-sm mb-8 text-[#a9eaf7]">Follow Us</h5>
+            <div class="flex gap-6">
+                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-[#a9eaf7] hover:text-[#a9eaf7] transition-[color,border-color,transform] duration-300 cursor-pointer hover:scale-110">
+                    <span class="material-symbols-outlined">share</span>
+                </div>
+                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-[#a9eaf7] hover:text-[#a9eaf7] transition-[color,border-color,transform] duration-300 cursor-pointer hover:scale-110">
+                    <span class="material-symbols-outlined">language</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="px-12 py-8 border-t border-white/5 max-w-[1920px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="manrope text-sm opacity-40">&copy; 2024 Lume Dental. High-End Clinical Curators.</p>
+        <div class="flex gap-8 text-xs manrope uppercase tracking-[0.2em] opacity-40">
+            <span>London</span>
+            <span>New York</span>
+            <span>Zurich</span>
+        </div>
+    </div>
+</footer>
+
+</main>
+
+<!-- ══════════ FAQ TOGGLE ══════════ -->
+<script>
+function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(faq => {
+        faq.classList.remove('open');
+        faq.querySelector('.faq-answer').style.maxHeight = '0px';
+    });
+    // Open clicked if was closed
+    if (!isOpen) {
+        item.classList.add('open');
+        const answer = item.querySelector('.faq-answer');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+}
+</script>
+
+<!-- ══════════ GSAP ANIMATIONS ══════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    // ── Loader ──
+    const tl = gsap.timeline();
+    tl.to('#loaderText', { opacity: 1, duration: 0.6, ease: 'power2.out' })
+      .to('#loaderTrack', { opacity: 1, duration: 0.3, ease: 'power2.out' }, '-=0.3')
+      .to('#loaderBar', { width: '100%', duration: 1.2, ease: 'power2.inOut' })
+      .to('#loaderText', { opacity: 0, y: -20, duration: 0.4, ease: 'power2.in' })
+      .to('#loaderTrack', { opacity: 0, duration: 0.3, ease: 'power2.in' }, '-=0.3')
+      .to('#loader', { yPercent: -100, duration: 0.8, ease: 'power3.inOut' })
+      .set('#loader', { display: 'none' })
+      .to('#mainContainer', { opacity: 1, duration: 0.01 }, '-=0.6')
+      .call(initAnimations);
+
+    function initAnimations() {
+
+        // ── Breadcrumb fade ──
+        const breadcrumb = document.querySelector('[data-purpose="breadcrumb"]');
+        if (breadcrumb) {
+            gsap.from(breadcrumb, {
+                y: 20, opacity: 0, duration: 0.6, ease: 'power3.out'
+            });
+        }
+
+        // ── Hero text stagger ──
+        const heroText = document.querySelector('[data-purpose="hero-text"]');
+        if (heroText) {
+            gsap.from(heroText.querySelector('h1'), {
+                y: 80, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.1
+            });
+            gsap.from(heroText.querySelector('p'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.3
+            });
+            gsap.from(heroText.querySelector('button'), {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.5
+            });
+            // ── Hero Cards ──
+            const heroCards = heroText.querySelector('.hero-cards');
+            if (heroCards) {
+                gsap.from(heroCards, {
+                    y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.7
+                });
+            }
+        }
+
+        // ── Hero image clipPath reveal ──
+        const heroImage = document.querySelector('[data-purpose="hero-image"]');
+        if (heroImage) {
+            gsap.from(heroImage, {
+                clipPath: 'inset(100% 0% 0% 0%)',
+                duration: 1.2,
+                ease: 'power3.inOut',
+                delay: 0.2
+            });
+            gsap.to(heroImage, {
+                clipPath: 'inset(0% 0% 0% 0%)',
+                duration: 1.2,
+                ease: 'power3.inOut',
+                delay: 0.2
+            });
+        }
+
+        // ── Explanation section ──
+        const explanationSection = document.querySelector('[data-purpose="explanation-section"]');
+        if (explanationSection) {
+            gsap.from(explanationSection.querySelector('span'), {
+                y: 20, opacity: 0, duration: 0.6, ease: 'power3.out',
+                scrollTrigger: { trigger: explanationSection, start: 'top 80%' }
+            });
+            gsap.from(explanationSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: explanationSection, start: 'top 75%' },
+                delay: 0.1
+            });
+            gsap.from(explanationSection.querySelectorAll('p'), {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.15,
+                scrollTrigger: { trigger: explanationSection, start: 'top 70%' },
+                delay: 0.2
+            });
+        }
+
+        // ── Process cards stagger ──
+        const processCards = document.querySelectorAll('.process-card');
+        processCards.forEach((card, i) => {
+            gsap.from(card, {
+                y: 80, opacity: 0, duration: 0.9, ease: 'power3.out',
+                delay: i * 0.12,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // ── Process section heading ──
+        const processSection = document.querySelector('[data-purpose="process-section"]');
+        if (processSection) {
+            gsap.from(processSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: processSection, start: 'top 80%' }
+            });
+        }
+
+        // ── Benefits cards stagger ──
+        const benefitCards = document.querySelectorAll('.benefit-card');
+        benefitCards.forEach((card, i) => {
+            gsap.from(card, {
+                y: 60, opacity: 0, duration: 0.8, ease: 'power3.out',
+                delay: i * 0.1,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // ── Benefits heading ──
+        const benefitsSection = document.querySelector('[data-purpose="benefits-section"]');
+        if (benefitsSection) {
+            gsap.from(benefitsSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: benefitsSection, start: 'top 80%' }
+            });
+        }
+
+        // ── FAQ fade in ──
+        const faqSection = document.querySelector('[data-purpose="faq-section"]');
+        if (faqSection) {
+            gsap.from(faqSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: faqSection, start: 'top 80%' }
+            });
+            gsap.from(faqSection.querySelectorAll('.faq-item'), {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1,
+                scrollTrigger: { trigger: faqSection, start: 'top 70%' }
+            });
+        }
+
+        // ── CTA section fade up ──
+        const ctaSection = document.querySelector('[data-purpose="cta-section"]');
+        if (ctaSection) {
+            gsap.from(ctaSection, {
+                y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+                scrollTrigger: { trigger: ctaSection, start: 'top 85%' }
+            });
+            gsap.from(ctaSection.querySelector('h2'), {
+                y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: ctaSection, start: 'top 80%' },
+                delay: 0.2
+            });
+        }
+
+        // ── Footer column stagger ──
+        const footerCols = document.querySelectorAll('footer .grid > div');
+        footerCols.forEach((col, i) => {
+            gsap.from(col, {
+                y: 30, opacity: 0, duration: 0.7, ease: 'power3.out',
+                delay: i * 0.1,
+                scrollTrigger: { trigger: col, start: 'top 95%' }
+            });
+        });
+
+        // ── Parallax on blur orbs ──
+        document.querySelectorAll('.blur-3xl, .blur-\\[100px\\], .blur-\\[120px\\]').forEach(el => {
+            gsap.to(el, {
+                y: -40,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        });
+
+        // ── Smooth parallax on hero image ──
+        const heroImg = document.querySelector('[data-purpose="hero-image"] img');
+        if (heroImg) {
+            gsap.to(heroImg, {
+                y: -30,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: heroImg.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1.5
+                }
+            });
+        }
+
+    } // end initAnimations
+
+}); // end DOMContentLoaded
+</script>
+
+</body>
+</html>
