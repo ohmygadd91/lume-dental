@@ -298,8 +298,8 @@
 <main class="container-wrapper" id="mainContainer" style="opacity:0;">
 
 <!-- ══════════ NAVIGATION ══════════ -->
-<header class="flex items-center justify-between px-10 py-8 bg-transparent" data-purpose="main-navigation" style="position:relative;z-index:50;">
-    <a href="index.html" class="flex items-center gap-2">
+<header class="flex items-center justify-between px-6 md:px-10 py-6 md:py-8 bg-transparent" data-purpose="main-navigation" style="position:relative;z-index:50;">
+    <a href="index.html" class="flex items-center gap-2 no-underline">
         <div class="w-8 h-8 bg-lume-dark rounded-md flex items-center justify-center">
             <svg class="w-5 h-5 text-white fill-current" viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>
         </div>
@@ -336,10 +336,54 @@
         <a href="index.html#services">Our Work</a>
         <a href="index.html#contacts">Contacts</a>
     </nav>
-    <a href="index.html#contacts" class="bg-lume-dark text-white px-6 py-3 rounded-full text-sm font-medium pill-button inline-block no-underline">
-        Book an Appointment
-    </a>
+    <div class="flex items-center gap-3">
+        <a href="index.html#contacts" class="hidden md:inline-block bg-lume-dark text-white px-6 py-3 rounded-full text-sm font-medium pill-button no-underline">
+            Book an Appointment
+        </a>
+        <button id="mobile-menu-btn" class="md:hidden w-10 h-10 rounded-full bg-lume-dark flex items-center justify-center focus:outline-none" aria-label="Open menu" type="button">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+    </div>
 </header>
+
+<!-- Mobile Navigation Overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-[999] pointer-events-none" style="visibility:hidden;">
+    <div id="mobile-menu-backdrop" class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu-panel" class="absolute top-0 right-0 h-full w-[300px] max-w-[85vw] bg-[#f4f5f7] shadow-2xl translate-x-full transition-transform duration-400" style="transition-timing-function:cubic-bezier(0.16,1,0.3,1);">
+        <div class="flex items-center justify-between px-6 py-6 border-b border-gray-200/60">
+            <span class="font-unbounded font-bold text-base">Menu</span>
+            <button id="mobile-menu-close" class="w-10 h-10 rounded-full bg-lume-dark flex items-center justify-center" aria-label="Close menu" type="button">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <nav class="px-6 py-8 space-y-2">
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-3 manrope">Services</p>
+            <a href="teeth-whitening.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white transition-colors duration-200 no-underline text-on-surface">
+                <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>flare</span>
+                <span class="text-sm font-medium">Teeth Whitening</span>
+            </a>
+            <a href="porcelain-veneers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white transition-colors duration-200 no-underline text-on-surface">
+                <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>layers</span>
+                <span class="text-sm font-medium">Porcelain Veneers</span>
+            </a>
+            <a href="smile-makeovers.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white transition-colors duration-200 no-underline text-on-surface">
+                <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>self_improvement</span>
+                <span class="text-sm font-medium">Smile Makeovers</span>
+            </a>
+            <a href="implants-prosthetics.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white transition-colors duration-200 no-underline text-on-surface">
+                <span class="material-symbols-outlined text-secondary text-xl" style='font-variation-settings: "FILL" 1;'>component_exchange</span>
+                <span class="text-sm font-medium">Implants & Prosthetics</span>
+            </a>
+            <div class="border-t border-gray-200/60 my-4"></div>
+            <a href="index.html#about" class="block px-4 py-3 rounded-xl hover:bg-white transition-colors duration-200 text-sm font-medium no-underline text-on-surface mobile-nav-link">About us</a>
+            <a href="index.html#services" class="block px-4 py-3 rounded-xl hover:bg-white transition-colors duration-200 text-sm font-medium no-underline text-on-surface mobile-nav-link">Our Work</a>
+            <a href="index.html#contacts" class="block px-4 py-3 rounded-xl hover:bg-white transition-colors duration-200 text-sm font-medium no-underline text-on-surface mobile-nav-link">Contacts</a>
+        </nav>
+        <div class="px-6 mt-auto">
+            <a href="index.html#contacts" class="block w-full bg-lume-dark text-white text-center px-6 py-4 rounded-full text-sm font-semibold pill-button no-underline mobile-nav-link">Book an Appointment</a>
+        </div>
+    </div>
+</div>
 
 <!-- ══════════ HERO ══════════ -->
 <section class="px-6 md:px-10 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start" data-purpose="hero-section">
@@ -890,6 +934,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     scrub: 1
                 }
             });
+        });
+    }
+
+    // ── Mobile Menu ──
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+    const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+    function openMobileMenu() {
+        mobileMenu.style.visibility = 'visible';
+        mobileMenu.classList.remove('pointer-events-none');
+        mobileMenuBackdrop.classList.remove('opacity-0');
+        mobileMenuPanel.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+        mobileMenuBackdrop.classList.add('opacity-0');
+        mobileMenuPanel.classList.add('translate-x-full');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+            mobileMenu.style.visibility = 'hidden';
+            mobileMenu.classList.add('pointer-events-none');
+        }, 400);
+    }
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
         });
     }
 });
